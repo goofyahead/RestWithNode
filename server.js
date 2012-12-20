@@ -1,8 +1,12 @@
-var http = require('http');
+var express = require('express');
+var app = express();
 
-http.createServer(function (req, res){
-	res.writeHead(200,{'Content-type' : 'text/plain'});
-	res.end('Hello there\n');
-}).listen(3000, '127.0.0.1');
+app.get('/dishes', function(req, res){
+	res.send([{name:'hamburguesa'}, {name: 'lasagna'}]);
+});
 
-console.log('server running at localhost');
+app.get('/dishes/:id', function(req, res){
+	res.send({id: req.params.id, name: "hamburguesa", description: "buenisima"});
+});
+
+app.listen(3000);
