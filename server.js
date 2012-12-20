@@ -1,8 +1,10 @@
-var http = require('http');
+var express = require('express');
+var app = express();
+var dishes = require('./routes/dishes');
 
-http.createServer(function (req, res){
-	res.writeHead(200,{'Content-type' : 'text/plain'});
-	res.end('Hello there\n');
-}).listen(3000, '127.0.0.1');
+app.get('/dishes', dishes.findAll);
 
-console.log('server running at localhost');
+app.get('/dishes/:id', dishes.findById);
+
+app.listen(3000);
+console.log('Listening on port 3000');
