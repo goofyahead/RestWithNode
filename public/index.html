@@ -69,7 +69,7 @@ var DishView = Backbone.View.extend({
 
 var DishViewElement = Backbone.View.extend({
 
-	tagName: 'li',
+	tagName: 'div',
 	id: 'dish',
 	className: 'fancy',
 
@@ -82,8 +82,9 @@ var DishViewElement = Backbone.View.extend({
 	},
 
 	render: function(){
-		var html = '<li><a href="#">'+ this.model.get('name') +'</a></li>';
+		var html = '<a href="#">'+ this.model.get('name') +'</a>';
 		this.$el.html(html);
+		return this;
 	}
 });
 
@@ -100,19 +101,24 @@ var DishList = Backbone.Collection.extend({
 	}
 });
 
-var DishViewElementList = Backbone.View.extend({
+var DishViewList = Backbone.View.extend({
+
+	tagName: 'div',
+	id: 'dishList',
 
 	initialize: function(){
 		this.collection.on('reset', this.addAll, this);
 	},
 
 	render: function(){
+		console.log('called render on listView');
 		this.addAll();
 	},
 
 	addOne: function(dish){
+		console.log('painting each view element ' + dish.toJSON);
 		var dishViewElement = new DishViewElement({model: dish});
-		this.$el.append(dishViewElement.render().el);
+		this.$el.append(dishViewElement.render().el);		
 	},
 
 	addAll: function(){
@@ -123,13 +129,13 @@ var DishViewElementList = Backbone.View.extend({
 
 var hamburguesa = new Dish({id : "50d7df1cebc3611114000002"});
 var dishList = new DishList();
-var dishViewList = new DishViewElementList({collection: dishList});
+var dishViewList = new DishViewList({collection: dishList});
 
 // hamburguesa.fetch({
 // 	headers: {'Authorization' :'Basic GOOFY:ELEPHANT'},
 // 	success: function() {
 // 	    console.log(hamburguesa.toJSON());
-// 	    var dishView = new DishView({model : hamburguesa});
+// 	    var dishView = new DishViewElement({model : hamburguesa});
 // 	    dishView.render();
 // 		$('#content').html(dishView.el);
 // 		console.log("rendering");
@@ -155,6 +161,8 @@ var AppRouter = Backbone.Router.extend({
    
    index: function(){
        // Homepage 
+       dishViewList.render();
+       $('#content').html(dishViewList.el);
 		dishList.fetch({
 			success: function() {
 				//dishList.forEach(function(dish){
