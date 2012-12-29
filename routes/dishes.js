@@ -34,7 +34,7 @@ db.open(function(err, db) {
 });
 
 exports.findById = function(req, res) {
-    if (checkAuth(req, res)){
+    // if (checkAuth(req, res)){
         var id = req.params.id;
         console.log('Retrieving dish: ' + id);
         try{
@@ -58,7 +58,7 @@ exports.findById = function(req, res) {
                 });
             }
         });
-    }
+    // }
 };
  
 exports.findAll = function(req, res) {
