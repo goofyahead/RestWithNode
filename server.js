@@ -2,6 +2,11 @@ var express = require('express');
 var app = express();
 var dishes = require('./routes/dishes');
 
+//STATIC DEFINITION
+app.configure(function(){
+	app.use(express.static(__dirname + '/public'));
+});
+
 //GET REQUESTS
 app.get('/dishes', dishes.findAll);
 app.get('/dishes/:id', dishes.findById);
