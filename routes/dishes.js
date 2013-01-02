@@ -65,6 +65,7 @@ exports.findAll = function(req, res) {
     console.log('Retrieving all dishes:');
     db.collection('dishes', function(err, collection) {
         collection.find().toArray(function(err, items) {
+            console.log(items);
             res.send(items);
         });
     });

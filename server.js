@@ -8,14 +8,14 @@ app.configure(function(){
 });
 
 //GET REQUESTS
-app.get('/dishes', dishes.findAll);
-app.get('/dishes/:id', dishes.findById);
+app.get('/api/dishes', dishes.findAll);
+app.get('/api/dishes/:id', dishes.findById);
 //PUT REQUEST
-app.put('/dishes/:id', dishes.updateDish);
+app.put('/api/dishes/:id', dishes.updateDish);
 //POST REQUEST
-app.post('/dishes', dishes.addDish);
+app.post('/api/dishes', dishes.addDish);
 //DELETE REQUEST
-app.delete('/dishes/:id', dishes.deleteDish);
+app.delete('/api/dishes/:id', dishes.deleteDish);
 
 app.listen(3000);
 console.log('Listening on port 3000...');
