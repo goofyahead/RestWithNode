@@ -2,195 +2,37 @@
 <html lang="es">
 <head>
 	<!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<style>
-		body {
-		padding-top: 60px; /* When using the navbar-top-fixed */
-		}
-	</style>
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <link href="assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
 </head>
 <body>
-
+<!-- fixed HEADER -->
 <div class="navbar navbar-fixed-top">
    <div class="navbar-inner">
     <div class="container">
     	<ul class="nav">
     	<li class="active"><a href="#">Home</a></li>
 		<li class="divider-vertical"></li>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>
+		<li><a href="#dishes">Platos</a></li>
+		<li><a href="#categories">Categorias</a></li>
 		</ul>
     </div>
   </div>
 </div>
-
+<!-- left menu -->
 <div class="row">
 	<div class="span3">
-	<ul class="nav nav-list" id='left_menu'>
-	<li class="nav-header">List header</li>
-	<li class="active"><a href="#">Home</a></li>
-	<li><a href="#">Library</a></li>
-	</ul>
+		<ul class="nav nav-list" id='left_menu'>
+			<li class="nav-header" id='left_list_header'>List header</li>
+		</ul>
+	</div>
+	<!-- content -->
+	<div class="span9" id='content'>
+		<h1>CONTENIDO</h1>
+	</div>
 </div>
-<div class="span9" id='content'>
-</div>
+<script src="js/lib/require-min.js" data-main="js/main"></script>
 
-<script src="lib/jquery-1.8.2.min.js"></script>
-<script src="lib/underscore-min.js"></script>
-<script src="lib/backbone-min.js"></script>
-<script src="lib/bootstrap.min.js"></script>
-
-<script>
-var Dish = Backbone.Model.extend({
-	urlRoot: '/dishes'
-});
-
-var DishView = Backbone.View.extend({
-
-	tagName: 'div',
-	id: 'dish',
-	className: 'fancy',
-
-	events: {
-		'click h3': 'alertStatus'
-	},
-
-	alertStatus: function(e){
-		alert('clicked on title!');
-	},
-
-	render: function(){
-		var html = '<h3>' + this.model.get('name') + '</h3> <br> <img class="img-polaroid" src=/images/' + this.model.get('picture') + '>';
-		this.$el.html(html);		
-	}
-});
-
-var DishViewElement = Backbone.View.extend({
-
-	tagName: 'div',
-	id: 'dish',
-	className: 'fancy',
-
-	events: {
-		'click a': 'navigate_to_dish'
-	},
-
-	navigate_to_dish: function(e){
-		alert('should navigate');
-	},
-
-	render: function(){
-		var html = '<a href="#">'+ this.model.get('name') +'</a>';
-		this.$el.html(html);
-		return this;
-	}
-});
-
-var DishList = Backbone.Collection.extend({
-	model: Dish,
-	url: '/dishes',
-
-	initialize: function(){
-		this.on('reset', this.alertReset);
-	},
-
-	alertReset: function(){
-		console.log('reset collection model');
-	}
-});
-
-var DishViewList = Backbone.View.extend({
-
-	tagName: 'div',
-	id: 'dishList',
-
-	initialize: function(){
-		this.collection.on('reset', this.addAll, this);
-	},
-
-	render: function(){
-		console.log('called render on listView');
-		this.addAll();
-	},
-
-	addOne: function(dish){
-		console.log('painting each view element ' + dish.toJSON);
-		var dishViewElement = new DishViewElement({model: dish});
-		this.$el.append(dishViewElement.render().el);		
-	},
-
-	addAll: function(){
-		console.log('reset captured');
-		this.collection.forEach(this.addOne, this);
-	}
-});
-
-var hamburguesa = new Dish({id : "50d7df1cebc3611114000002"});
-var dishList = new DishList();
-var dishViewList = new DishViewList({collection: dishList});
-
-// hamburguesa.fetch({
-// 	headers: {'Authorization' :'Basic GOOFY:ELEPHANT'},
-// 	success: function() {
-// 	    console.log(hamburguesa.toJSON());
-// 	    var dishView = new DishViewElement({model : hamburguesa});
-// 	    dishView.render();
-// 		$('#content').html(dishView.el);
-// 		console.log("rendering");
-// 	},
-// 	error: function(){
-// 		console.log('error retrieving data');
-// 		$('#content').html('<h1>ERROR AUTH</h1>');
-// 	}
-// });
-
-
-
-var AppRouter = Backbone.Router.extend({
-    
-   // Hash maps for routes
-   routes : {
-      "" : "index",
-      "/teams" : "getTeams",
-      "/teams/:country" : "getTeamsCountry",
-      "/teams/:country/:name" : "getTeam",
-      "error" : "fourOfour"
-   },
-   
-   index: function(){
-       // Homepage 
-       dishViewList.render();
-       $('#content').html(dishViewList.el);
-		dishList.fetch({
-			success: function() {
-				//dishList.forEach(function(dish){
-				//	$('#left_menu').append('<li><a href="#">'+ dish.get('name') +'</a></li>');
-				//});
-				console.log("lista: " + dishList.toJSON());
-			}
-		});
-   },
-   
-   getTeams: function() {
-       // List all teams 
-   },
-   getTeamsCountry: function(country) {
-       // Get list of teams for specific country
-   },
-   getTeam: function(country, name) {
-       // Get the teams for a specific country and with a specific name
-   },	
-   fourOfour: function(error) {
-       // 404 page
-   }
-});
-
-$(function(){
-    var router = new AppRouter();
-    Backbone.history.start({pushState : true});
-});
-</script>
 </body>
 </html>
