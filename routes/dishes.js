@@ -1,12 +1,3 @@
-/*var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/testa');
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback () {
-  console.log('ok connection to db');
-});*/
-
 // Retrieve
 var Db = require('mongodb').Db;
 var Server = require('mongodb').Server;
@@ -19,7 +10,7 @@ var db = new Db('kaprika', new Server("127.0.0.1", 27017,
 // Establish connection to db
 db.open(function(err, db) {
   if(err) { 
-    return console.dir(err); 
+    return console.dir(err);
   } else {
     //opens the database and the dishes collection
     db.createCollection('dishes', {safe:true}, function(err, collection) {

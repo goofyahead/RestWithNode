@@ -1,3 +1,72 @@
-<h3> <%= name %> </h3> 
-<br> 
-<img class="img-polaroid" src=/images/<%= picture %> >
+<div class="row">
+	<div id="modalplacer">
+	</div>
+	<div class="span9">
+		 <legend>Descipción de plato</legend>
+	</div>
+	<div class="span5">
+
+		<div class="controls controls-row">
+			<input class="span5" type="text" value="<%= _id %>" disabled>
+		</div>
+
+		<div class="controls controls-row">
+			<input class="span4" type="text" value="<%= name %>">
+			<input class="span1" type="text" value="<%= price %>">
+		</div>
+
+		<div class="controls controls-row">
+			<textarea class="span5" rows="4" style="resize: none;"> <%= description %> </textarea>
+		</div>
+	</div>
+	<div class="span4">
+		<img class="img-polaroid" src=/images/<%= picture %> >
+	</div>
+</div>
+<div class="row">
+	<div class="span3" id="menus">
+		<ul class="nav nav-tabs nav-stacked" id='menus-menu'>
+			<li class="nav-header" id='left_list_header'>Menus</li>
+			<li><a href="#">categoria1 <i class="icon-remove pull-right"></i></a> </li>
+			<li><a href="#">ategoria2 <i class="icon-remove pull-right"></i></a></li>
+			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+		</ul>
+	</div>
+
+	<div class="span3" id="categories">
+		<ul class="nav nav-tabs nav-stacked" id='categories-menu'>
+			<li class="nav-header" id='left_list_header'>Categorias</li>
+			<li><a href="#">categoria1 <i class="icon-remove pull-right"></i></a> </li>
+			<li><a href="#">ategoria2 <i class="icon-remove pull-right"></i></a></li>
+			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+		</ul>
+	</div>
+
+	<div class="span3" id="relations">
+		<ul class="nav nav-tabs nav-stacked" id='relations-menu'>
+			<li class="nav-header" id='left_list_header'>Recomendaciones</li>
+			<li><a href="#">categoria1 <i class="icon-remove pull-right"></i></a> </li>
+			<li><a href="#">ategoria2 <i class="icon-remove pull-right"></i></a></li>
+			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+		</ul>
+	</div>
+ </div>
+ <div class="row">
+	<div class="span3" id="tags">
+		<ul class="nav nav-tabs nav-stacked" id='tags-menu'>
+			<li class="nav-header" id='left_list_header'>Tags</li>
+			<li><a href="#">categoria1 <i class="icon-remove pull-right"></i></a> </li>
+			<li><a href="#">ategoria2 <i class="icon-remove pull-right"></i></a></li>
+			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+		</ul>
+	</div>
+
+	<div class="span3" id="ingredients">
+		<ul class="nav nav-tabs nav-stacked" id='ingredients-menu'>
+			<li class="nav-header" id='left_list_header'>Ingredientes</li>
+			<li><a href="#">categoria1 <i class="icon-remove pull-right"></i></a> </li>
+			<li><a href="#">ategoria2 <i class="icon-remove pull-right"></i></a></li>
+			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+		</ul>
+	</div>
+</div>

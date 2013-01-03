@@ -3766,6 +3766,11 @@ input[type="submit"].btn.btn-mini {
   background-color: #eeeeee;
 }
 
+.nav .newItem  a:hover{
+  text-decoration: none;
+  background-color: #00FF00;
+}
+
 .nav > .pull-right {
   float: right;
 }
@@ -3895,6 +3900,7 @@ input[type="submit"].btn.btn-mini {
      -moz-border-radius: 5px;
           border-radius: 5px;
 }
+
 
 .nav-pills > .active > a,
 .nav-pills > .active > a:hover {
