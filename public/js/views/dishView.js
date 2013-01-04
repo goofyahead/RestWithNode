@@ -9,6 +9,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		id: 'dish',
 
 		initialize: function(){
+			console.log('initializing dishView');
 			this.model.on('change', this.render, this);
 		},
 
@@ -32,7 +33,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 	            success: function(){
 					var modal = new ModalView(
 						{collection: categories,
-						 having: thisView.model.toJSON()
+						 having: thisView.model
 					});
 					modal.render();
 					$('#modalplacer').html(modal.el);
@@ -45,6 +46,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		},
 
 		render: function(){
+			console.log('rendering dishView');
 			this.$el.html(this.template(this.model.toJSON()));
 		}
 	});

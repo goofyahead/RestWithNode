@@ -1,6 +1,6 @@
 //Modal view definition
 
-define(['backbone', 'text!templates/modal.html','models/dish'], function(Backbone, template, Dish){
+define(['backbone', 'text!templates/modal.html'], function(Backbone, template){
 	var ModalView = Backbone.View.extend({
 
 		selection: [],
@@ -12,8 +12,8 @@ define(['backbone', 'text!templates/modal.html','models/dish'], function(Backbon
 
 		initialize: function(){
 			console.log("initializing ++++++++++++++++++++++++++++");
-			console.log(this.options.having);
-			this.selection = this.options.having.categories;
+			console.log(this.options.having.get('categories'));
+			this.selection = this.options.having.get('categories');
 		},
 
 		events: {
@@ -22,13 +22,7 @@ define(['backbone', 'text!templates/modal.html','models/dish'], function(Backbon
 		},
 
 		save_clicked: function(ev){
-			console.log('save changes: ' + this.selection);
-			this.options.having.categories = this.selection;
-			console.log('status of dish: ');
-			console.log(this.options.having);
-			var miDishActualizado = new Dish(this.options.having);
-			console.log(miDishActualizado);
-			miDishActualizado.save();
+			this.options.having.updateCategories(this.selection);
 		},
 
 		button_clicked: function(ev){
@@ -50,7 +44,7 @@ define(['backbone', 'text!templates/modal.html','models/dish'], function(Backbon
 			console.log(this.options.having);
 			var compiledTemplate = this.template({
             	myCategos: this.collection.toJSON(),
-            	myHaving: this.options.having
+            	myHaving: this.options.having.toJSON()
         	});
 			this.$el.html(compiledTemplate);
 			return this;
