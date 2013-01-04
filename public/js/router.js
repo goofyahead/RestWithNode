@@ -23,7 +23,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
      showDishById: function(id){
           console.log('requesting product' + id);
           var dishModel = new Dish({id : id});
-          var dishView = new DishView({model: dishModel});
+          // var dishView = new DishView({model: dishModel});
           dishModel.fetch({
               success: function() {
                   console.log(dishModel.toJSON());

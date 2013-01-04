@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Haz click sobre el elemento que quieras quitar o añadir:</h3>
+	  </div>
+	  <div class="modal-body">
+	  	<div class="center-div-modal">
+	  	<div class="row">
+	  		<% var cont = 0; %>
+		  	<% _.each(myCategos, function(cat) { console.log(cont); %> 
+		  		<% if ( _.indexOf(myHaving.categories, cat.name) == -1) {   %>
+		  		<% if (cont % 4 == 0) { %>
+		  			</div><div class="row spacer">
+		  		<% } %>
+		  		<div class="span2">
+		  			<button id="modal-element" class="btn btn-small btn-block"> <%= cat.name %> </button>
+		  		</div>
+		  		<% } else { %>
+		  		<div class="span2">
+		  			<button id="modal-element" class="btn btn-primary btn-small btn-block"> <%= cat.name %> </button>
+		  		</div>
+		  		<%  } %>
+		  	<% cont++;}); %>
+		</div>
+	  </div>
+	</div>
+	  <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	    <button class="btn btn-primary" data-dismiss="modal" id="save-modal">Save changes</button>
+	  </div>
+</div>
