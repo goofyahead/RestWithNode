@@ -6,6 +6,7 @@ var categories = require('./routes/categories');
 //STATIC DEFINITION
 app.configure(function(){
 	app.use(express.static(__dirname + '/public'));
+	app.use(express.bodyParser());
 });
 
 //GET REQUESTS

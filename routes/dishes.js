@@ -51,6 +51,31 @@ exports.findById = function(req, res) {
         });
     // }
 };
+
+exports.updateDish = function(req, res) {
+    var id = req.params.id;
+    var wine = req.body;
+    console.log('Updating dish: ' + id);
+    console.log(wine);
+    delete wine._id;
+    try{
+        var obj_id = BSON.ObjectID.createFromHexString(id);
+    }catch (err){
+        res.send('invalid request');
+        console.log('invalid request');
+    }
+    db.collection('dishes', function(err, collection) {
+        collection.update({'_id': obj_id}, wine, {safe:true}, function(err, result) {
+            if (err) {
+                console.log('Error updating wine: ' + err);
+                res.send({'error':'An error has occurred'});
+            } else {
+                console.log('' + result + ' document(s) updated');
+                res.send(wine);
+            }
+        });
+    });
+}
  
 exports.findAll = function(req, res) {
     console.log('Retrieving all dishes:');
@@ -72,24 +97,6 @@ exports.addDish = function(req, res) {
             } else {
                 console.log('Success: ' + JSON.stringify(result[0]));
                 res.send(result[0]);
-            }
-        });
-    });
-}
- 
-exports.updateDish = function(req, res) {
-    var id = req.params.id;
-    var wine = req.body;
-    console.log('Updating wine: ' + id);
-    console.log(JSON.stringify(wine));
-    db.collection('dishes', function(err, collection) {
-        collection.update({'_id':new BSON.ObjectID(id)}, wine, {safe:true}, function(err, result) {
-            if (err) {
-                console.log('Error updating wine: ' + err);
-                res.send({'error':'An error has occurred'});
-            } else {
-                console.log('' + result + ' document(s) updated');
-                res.send(wine);
             }
         });
     });

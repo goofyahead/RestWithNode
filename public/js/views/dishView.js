@@ -8,12 +8,16 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		tagName: 'div',
 		id: 'dish',
 
-		events: {
-			'click  #menus-menu .newItem': 'launch_modal_menu',
-			'click #categories-menu .newItem': 'launch_modal_categories'
+		initialize: function(){
+			this.model.on('change', this.render, this);
 		},
 
-		launch_modal_menu: function(e){
+		events: {
+			'click  #menus-menu .newItem': 'launch_modal_menu',
+			'click #categories-menu .newItem': 'launch_modal_categories',
+		},
+
+		launch_modal_menu: function(ev){
 			console.log('launching modal');
 			var modal = new ModalView();
 			modal.render();
@@ -21,12 +25,15 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			$('#myModal').modal();
 		},
 
-		launch_modal_categories: function(e){
-
+		launch_modal_categories: function(ev){
+			var thisView = this;
 			var categories = new Categories();
 			categories.fetch({
 	            success: function(){
-					var modal = new ModalView({collection: categories});
+					var modal = new ModalView(
+						{collection: categories,
+						 having: thisView.model.toJSON()
+					});
 					modal.render();
 					$('#modalplacer').html(modal.el);
 					$('#myModal').modal();
@@ -34,9 +41,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 	            error: function(){
 	              console.log('failure');
 	            }
-		    });
-
-			
+		    });		
 		},
 
 		render: function(){
