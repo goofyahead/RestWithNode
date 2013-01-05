@@ -1,7 +1,8 @@
 // View definition importing its html for rendering
 
-define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap','models/categories'], 
-	function(Backbone, $, dish, ModalView, bootstrap, Categories){
+define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap','models/categories',
+	'models/menus','models/tags','models/ingredients'], 
+	function(Backbone, $, dish, ModalView, bootstrap, Categories, Menus, Tags, Ingredients){
 	var DishView = Backbone.View.extend({
 		template: _.template(dish),
 
@@ -16,14 +17,68 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		events: {
 			'click  #menus-menu .newItem': 'launch_modal_menu',
 			'click #categories-menu .newItem': 'launch_modal_categories',
+			'click #tags-menu .newItem': 'launch_modal_tags',
+			'click #ingredients-menu .newItem': 'launch_modal_ingredients'
+		},
+
+		launch_modal_ingredients: function(ev){
+			var thisView = this;
+			var ingredients = new Ingredients();
+			ingredients.fetch({
+	            success: function(){
+					var modal = new ModalView(
+						{collection: ingredients,
+						 having: thisView.model,
+						 what: 'ingredients'
+					});
+					modal.render();
+					$('#modalplacer').html(modal.el);
+					$('#myModal').modal();
+	            },
+	            error: function(){
+	              console.log('failure');
+	            }
+		    });	
+		},
+
+		launch_modal_tags: function(ev){
+			var thisView = this;
+			var tags = new Tags();
+			tags.fetch({
+	            success: function(){
+					var modal = new ModalView(
+						{collection: tags,
+						 having: thisView.model,
+						 what: 'tags'
+					});
+					modal.render();
+					$('#modalplacer').html(modal.el);
+					$('#myModal').modal();
+	            },
+	            error: function(){
+	              console.log('failure');
+	            }
+		    });	
 		},
 
 		launch_modal_menu: function(ev){
-			console.log('launching modal');
-			var modal = new ModalView();
-			modal.render();
-			$('#modalplacer').html(modal.el);
-			$('#myModal').modal();
+			var thisView = this;
+			var menus = new Menus();
+			menus.fetch({
+	            success: function(){
+					var modal = new ModalView(
+						{collection: menus,
+						 having: thisView.model,
+						 what: 'menu'
+					});
+					modal.render();
+					$('#modalplacer').html(modal.el);
+					$('#myModal').modal();
+	            },
+	            error: function(){
+	              console.log('failure');
+	            }
+		    });	
 		},
 
 		launch_modal_categories: function(ev){
@@ -33,7 +88,8 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 	            success: function(){
 					var modal = new ModalView(
 						{collection: categories,
-						 having: thisView.model
+						 having: thisView.model,
+						 what: 'categories'
 					});
 					modal.render();
 					$('#modalplacer').html(modal.el);

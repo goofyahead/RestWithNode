@@ -12,21 +12,21 @@ db.open(function(err, db) {
   if(err) { 
     return console.dir(err);
   } else {
-    //opens the database and the categories collection
-    db.createCollection('categories', {safe:true}, function(err, collection) {
+    //opens the database and the ingredients collection
+    db.createCollection('ingredients', {safe:true}, function(err, collection) {
         if (err) {
             //TODO ESTO ESTA MAL NO FUNCIONA NUNCA
-            console.log("The 'categories' collection doesn't exist. Creating it with sample data...");
+            console.log("The 'ingredients' collection doesn't exist. Creating it with sample data...");
         } else {
-            console.log("Collection 'categories' exists.");
+            console.log("Collection 'ingredients' exists.");
         }
         });
     }
 });
 
 exports.findAll = function(req, res) {
-    console.log('Retrieving all categories:');
-    db.collection('categories', function(err, collection) {
+    console.log('Retrieving all ingredients:');
+    db.collection('ingredients', function(err, collection) {
         collection.find().toArray(function(err, items) {
             console.log(items);
             res.send(items);
@@ -35,10 +35,10 @@ exports.findAll = function(req, res) {
 };
 
 exports.addCategory = function(req, res) {
-    var wine = req.body;
-    console.log('Adding wine: ' + JSON.stringify(wine));
-    db.collection('categories', function(err, collection) {
-        collection.insert(wine, {safe:true}, function(err, result) {
+    var ingredient = req.body;
+    console.log('Adding ingredient: ' + JSON.stringify(ingredient));
+    db.collection('ingredients', function(err, collection) {
+        collection.insert(ingredient, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred'});
             } else {
@@ -51,8 +51,8 @@ exports.addCategory = function(req, res) {
  
 exports.deleteCategory = function(req, res) {
     var id = req.params.id;
-    console.log('Deleting wine: ' + id);
-    db.collection('categories', function(err, collection) {
+    console.log('Deleting ingredient: ' + id);
+    db.collection('ingredients', function(err, collection) {
         collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred - ' + err});

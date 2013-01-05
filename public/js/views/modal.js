@@ -12,8 +12,8 @@ define(['backbone', 'text!templates/modal.html'], function(Backbone, template){
 
 		initialize: function(){
 			console.log("initializing ++++++++++++++++++++++++++++");
-			console.log(this.options.having.get('categories'));
-			this.selection = this.options.having.get('categories');
+			console.log(this.options.having.get(this.options.what));
+			this.selection = this.options.having.get(this.options.what);
 		},
 
 		events: {
@@ -22,7 +22,7 @@ define(['backbone', 'text!templates/modal.html'], function(Backbone, template){
 		},
 
 		save_clicked: function(ev){
-			this.options.having.updateCategories(this.selection);
+			this.options.having.updateFields(this.options.what, this.selection);
 		},
 
 		button_clicked: function(ev){
@@ -44,7 +44,7 @@ define(['backbone', 'text!templates/modal.html'], function(Backbone, template){
 			console.log(this.options.having);
 			var compiledTemplate = this.template({
             	myCategos: this.collection.toJSON(),
-            	myHaving: this.options.having.toJSON()
+            	myHaving: this.options.having.get(this.options.what)
         	});
 			this.$el.html(compiledTemplate);
 			return this;

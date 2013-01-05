@@ -2,7 +2,7 @@
 	<div id="modalplacer">
 	</div>
 	<div class="span9">
-		 <legend>Descipción de plato</legend>
+		 <legend>Descripción de plato</legend>
 	</div>
 	<div class="span5">
 
@@ -27,9 +27,11 @@
 	<div class="span3" id="menus">
 		<ul class="nav nav-tabs nav-stacked" id='menus-menu'>
 			<li class="nav-header" id='left_list_header'>Menus</li>
-			<li><a href="#">categoria1 <i class="icon-remove pull-right"></i></a> </li>
-			<li><a href="#">ategoria2 <i class="icon-remove pull-right"></i></a></li>
-			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+			<% console.log(categories); %>
+			<% _.each(menu, function(menuElement){ console.log(menuElement); %>
+				<li><a href="#"> <%= menuElement %> </a> </li>
+			<% }); %>
+			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
 	</div>
 
@@ -40,16 +42,18 @@
 			<% _.each(categories, function(dishElement){ console.log(dishElement); %>
 				<li><a href="#"> <%= dishElement %> </a> </li>
 			<% }); %>
-			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
 	</div>
 
 	<div class="span3" id="relations">
 		<ul class="nav nav-tabs nav-stacked" id='relations-menu'>
 			<li class="nav-header" id='left_list_header'>Recomendaciones</li>
-			<li><a href="#">categoria1 <i class="icon-remove pull-right"></i></a> </li>
-			<li><a href="#">ategoria2 <i class="icon-remove pull-right"></i></a></li>
-			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+			<% console.log(categories); %>
+			<% _.each(recommendations, function(recomElement){ console.log(recomElement); %>
+				<li><a href="#"> <%= recomElement %> </a> </li>
+			<% }); %>
+			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
 	</div>
  </div>
@@ -57,18 +61,22 @@
 	<div class="span3" id="tags">
 		<ul class="nav nav-tabs nav-stacked" id='tags-menu'>
 			<li class="nav-header" id='left_list_header'>Tags</li>
-			<li><a href="#">categoria1 <i class="icon-remove pull-right"></i></a> </li>
-			<li><a href="#">ategoria2 <i class="icon-remove pull-right"></i></a></li>
-			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+			<% console.log(categories); %>
+			<% _.each(tags, function(tagElement){ console.log(tagElement); %>
+				<li><a href="#"> <%= tagElement %> </a> </li>
+			<% }); %>
+			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
 	</div>
 
 	<div class="span3" id="ingredients">
 		<ul class="nav nav-tabs nav-stacked" id='ingredients-menu'>
 			<li class="nav-header" id='left_list_header'>Ingredientes</li>
-			<li><a href="#">categoria1 <i class="icon-remove pull-right"></i></a> </li>
-			<li><a href="#">ategoria2 <i class="icon-remove pull-right"></i></a></li>
-			<li class="newItem"><a href="#">añadir <i class="icon-plus pull-right"></i></a> </li>
+			<% console.log(categories); %>
+			<% _.each(ingredients, function(ingredientElement){ console.log(ingredientElement); %>
+				<li><a href="#"> <%= ingredientElement %> </a> </li>
+			<% }); %>
+			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
 	</div>
 </div>
