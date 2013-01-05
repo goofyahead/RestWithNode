@@ -8,8 +8,8 @@
 	  	<div class="center-div-modal">
 	  	<div class="row">
 	  		<% var cont = 0; %>
-		  	<% _.each(myCategos, function(cat) { console.log(cont); %> 
-		  		<% if ( _.indexOf(myHaving.categories, cat.name) == -1) {   %>
+		  	<% _.each(myCategos, function(cat) { console.log(cat); %> 
+		  		<% if ( _.indexOf(myHaving, cat.name) == -1) {   %>
 		  		<% if (cont % 4 == 0) { %>
 		  			</div><div class="row spacer">
 		  		<% } %>

@@ -2,6 +2,9 @@ var express = require('express');
 var app = express();
 var dishes = require('./routes/dishes');
 var categories = require('./routes/categories');
+var menus = require('./routes/menus');
+var ingredients = require('./routes/ingredients');
+var tags = require('./routes/tags');
 
 //STATIC DEFINITION
 app.configure(function(){
@@ -12,7 +15,9 @@ app.configure(function(){
 //GET REQUESTS
 app.get('/api/dishes', dishes.findAll);
 app.get('/api/dishes/:id', dishes.findById);
-
+app.get('/api/menus', menus.findAll);
+app.get('/api/tags', tags.findAll);
+app.get('/api/ingredients', ingredients.findAll);
 app.get('/api/categories', categories.findAll);
 //PUT REQUEST
 app.put('/api/dishes/:id', dishes.updateDish);
