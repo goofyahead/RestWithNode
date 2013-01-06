@@ -1,8 +1,8 @@
 // View definition importing its html for rendering
 
 define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap','models/categories',
-	'models/menus','models/tags','models/ingredients'], 
-	function(Backbone, $, dish, ModalView, bootstrap, Categories, Menus, Tags, Ingredients){
+	'models/menus','models/tags','models/ingredients','models/dishes','views/modal_relations'],
+	function(Backbone, $, dish, ModalView, bootstrap, Categories, Menus, Tags, Ingredients, Dishes, ModalRelations){
 	var DishView = Backbone.View.extend({
 		template: _.template(dish),
 
@@ -18,7 +18,28 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			'click  #menus-menu .newItem': 'launch_modal_menu',
 			'click #categories-menu .newItem': 'launch_modal_categories',
 			'click #tags-menu .newItem': 'launch_modal_tags',
-			'click #ingredients-menu .newItem': 'launch_modal_ingredients'
+			'click #ingredients-menu .newItem': 'launch_modal_ingredients',
+			'click #relations-menu .newItem': 'launch_modal_relations'
+		},
+
+		launch_modal_relations: function(ev){
+			var thisView = this;
+			var dishes = new Dishes();
+			dishes.fetch({
+	            success: function(){
+					var modal = new ModalRelations(
+						{collection: dishes,
+						 having: thisView.model,
+						 what: 'recommendations'
+					});
+					modal.render();
+					$('#modalplacer').html(modal.el);
+					$('#myModal').modal();
+	            },
+	            error: function(){
+	              console.log('failure');
+	            }
+		    });
 		},
 
 		launch_modal_ingredients: function(ev){

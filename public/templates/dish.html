@@ -5,7 +5,6 @@
 		 <legend>Descripción de plato</legend>
 	</div>
 	<div class="span5">
-
 		<div class="controls controls-row">
 			<input class="span5" type="text" value="<%= _id %>" disabled>
 		</div>
@@ -51,7 +50,7 @@
 			<li class="nav-header" id='left_list_header'>Recomendaciones</li>
 			<% console.log(categories); %>
 			<% _.each(recommendations, function(recomElement){ console.log(recomElement); %>
-				<li><a href="#"> <%= recomElement %> </a> </li>
+				<li><a href="#"> <%= recomElement.name %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>

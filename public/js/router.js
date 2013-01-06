@@ -1,6 +1,6 @@
 //App router
-define(['jquery','underscore','backbone','views/dishView','models/dish','views/dishListView', 'models/dishList'],
-  function($, _, Backbone, DishView, Dish, DishListView, DishList){
+define(['jquery','underscore','backbone','views/dishView','models/dish','views/dishListView', 'models/dishes'],
+  function($, _, Backbone, DishView, Dish, DishListView, Dishes){
   
   var AppRouter = Backbone.Router.extend({
       
@@ -40,7 +40,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
      },
 
      showDishes: function(){
-          var dishList = new DishList();
+          var dishList = new Dishes();
           var dishListView = new DishListView({collection: dishList});
           dishList.fetch({
             success: function(){
