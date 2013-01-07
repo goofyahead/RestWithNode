@@ -12,11 +12,12 @@
 			  	<span class="add-on">
 			  		<i class="icon-search"></i>
 			  	</span>
-			    <input type="text" class="span2">			    
+			    <input id="search-me" type="text" class="span2">			    
 			  </div>
 			</form>
 	  	</div>
-	  	<div class="row">
+	  	<div id="dishesList">
+	  	<div class="row">	  	
 	  		<% var cont = 0; %>
 		  	<% _.each(myCategos, function(cat) { console.log(cat); %> 
 		  		<% if ( _.indexOf(myHaving, cat) == -1) {   %>
@@ -31,7 +32,8 @@
 		  			<button id="modal-element" class="btn btn-primary btn-small btn-block"> <%= cat %> </button>
 		  		</div>
 		  		<%  } %>
-		  	<% cont++;}); %>
+		  	<% cont++; }); %>
+		</div>
 		</div>
 	  </div>
 	</div>

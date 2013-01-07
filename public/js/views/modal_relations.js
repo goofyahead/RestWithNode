@@ -13,9 +13,19 @@ define(['backbone', 'text!templates/modal_search.html'], function(Backbone, temp
 		id: 'modal',
 
 		initialize: function(){
+			//reset arrays
+			this.posibilities = [];
+			this.selection = [];
+			this.finalSelection = [];
+			
 			console.log("getting and saving relations");
 			this.options.having.get(this.options.what).forEach(this.addToSelection, this);
 			this.collection.forEach(this.addToOptions, this);
+			jQuery.expr[":"].Contains = jQuery.expr.createPseudo(function(arg) {
+			    return function( elem ) {
+			    return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+			    };
+			});
 		},
 
 		addToSelection: function (relation) {
@@ -28,7 +38,18 @@ define(['backbone', 'text!templates/modal_search.html'], function(Backbone, temp
 
 		events: {
 			'click #save-modal' : 'save_clicked',
-			'click #modal-element': 'button_clicked'
+			'click #modal-element': 'button_clicked',
+			'keyup #search-me': 'search_list'
+		},
+
+		search_list: function(ev) {
+		    var filter = $('#search-me').val();
+		    if (filter.length > 2) {
+			    $('#dishesList').find("button:not(:Contains(" + filter + "))").parent().hide();
+			    $('#dishesList').find("button:Contains(" + filter + ")").parent().show();
+			} else {
+				 $('#dishesList').find('button').parent().show();
+			}
 		},
 
 		save_clicked: function(ev){

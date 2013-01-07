@@ -17,11 +17,17 @@
 		<div class="controls controls-row">
 			<textarea class="span5" rows="4" style="resize: none;"> <%= description %> </textarea>
 		</div>
+		<button id="save-basic-changes" class="btn btn-success"> Guardar </button>
 	</div>
 	<div class="span4">
-		<img class="img-polaroid" src=/images/<%= picture %> >
+		<% if (picture) { %>
+			<img class="img-polaroid" src=/images/<%= picture %> >
+		<% } else { %>
+			<img class="img-polaroid" src=/images/noimage.png >
+		<% } %>
 	</div>
 </div>
+
 <div class="row">
 	<div class="span3" id="menus">
 		<ul class="nav nav-tabs nav-stacked" id='menus-menu'>
