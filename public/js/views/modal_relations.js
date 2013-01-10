@@ -17,13 +17,13 @@ define(['backbone', 'text!templates/modal_search.html'], function(Backbone, temp
 			this.posibilities = [];
 			this.selection = [];
 			this.finalSelection = [];
-			
+
 			console.log("getting and saving relations");
 			this.options.having.get(this.options.what).forEach(this.addToSelection, this);
 			this.collection.forEach(this.addToOptions, this);
 			jQuery.expr[":"].Contains = jQuery.expr.createPseudo(function(arg) {
 			    return function( elem ) {
-			    return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+			    	return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
 			    };
 			});
 		},
