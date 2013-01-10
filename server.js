@@ -5,6 +5,7 @@ var categories = require('./routes/categories');
 var menus = require('./routes/menus');
 var ingredients = require('./routes/ingredients');
 var tags = require('./routes/tags');
+var files = require('./routes/files');
 
 //STATIC DEFINITION
 app.configure(function(){
@@ -23,6 +24,7 @@ app.get('/api/categories', categories.findAll);
 app.put('/api/dishes/:id', dishes.updateDish);
 //POST REQUEST
 app.post('/api/dishes', dishes.addDish);
+app.post('/api/file-upload', files.uploadFile);
 //DELETE REQUEST
 app.delete('/api/dishes/:id', dishes.deleteDish);
 

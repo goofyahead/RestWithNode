@@ -5,35 +5,43 @@
 		 <legend>Descripción de plato</legend>
 	</div>
 	<div class="span5">
-
 		<div class="controls controls-row">
-			<input class="span5" type="text" value="<%= _id %>" disabled>
+			<input class="span5" type="text" value="<%= _id === null ? '' : _id %>" disabled>
 		</div>
 
 		<div class="controls controls-row">
-			<input class="span4" type="text" value="<%= name %>">
-			<input class="span1" type="text" value="<%= price %>">
+			<input id='inputName' class="span4" type="text" value="<%= name %>">
+			<input id='inputPrice' class="span1" type="text" value="<%= price %>">
 		</div>
 
 		<div class="controls controls-row">
-			<textarea class="span5" rows="4" style="resize: none;"> <%= description %> </textarea>
+			<textarea id='inputDescription' class="span5" rows="4" style="resize: none;"> <%= description %> </textarea>
 		</div>
+		<button id="save-basic-changes" class="btn btn-success"> Guardar </button>
+
 	</div>
+	<% if (_id === null) { %>
+	<% } else { %>
 	<div class="span4">
-		<img class="img-polaroid" src=/images/<%= picture %> >
+		<% if (picture) { %>
+			<img id='dropPicture' class="img-polaroid shrink-img" src=/images/<%= picture %> >
+		<% } else { %>
+			<img id='dropPicture' class="img-polaroid shrink-img" src=/images/noimage.png >
+		<% } %>
 	</div>
-</div>
-<div class="row">
-	<div class="span3" id="menus">
-		<ul class="nav nav-tabs nav-stacked" id='menus-menu'>
-			<li class="nav-header" id='left_list_header'>Menus</li>
-			<% console.log(categories); %>
-			<% _.each(menu, function(menuElement){ console.log(menuElement); %>
-				<li><a href="#"> <%= menuElement %> </a> </li>
-			<% }); %>
-			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
-		</ul>
 	</div>
+
+	<div class="row">
+		<div class="span3" id="menus">
+			<ul class="nav nav-tabs nav-stacked" id='menus-menu'>
+				<li class="nav-header" id='left_list_header'>Menus</li>
+				<% console.log(categories); %>
+				<% _.each(menu, function(menuElement){ console.log(menuElement); %>
+					<li><a href="#"> <%= menuElement %> </a> </li>
+				<% }); %>
+				<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
+			</ul>
+		</div>
 
 	<div class="span3" id="categories">
 		<ul class="nav nav-tabs nav-stacked" id='categories-menu'>
@@ -51,7 +59,7 @@
 			<li class="nav-header" id='left_list_header'>Recomendaciones</li>
 			<% console.log(categories); %>
 			<% _.each(recommendations, function(recomElement){ console.log(recomElement); %>
-				<li><a href="#"> <%= recomElement %> </a> </li>
+				<li><a href="#"> <%= recomElement.name %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
@@ -79,4 +87,5 @@
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
 	</div>
+	<% } %>
 </div>

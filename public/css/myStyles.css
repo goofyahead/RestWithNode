@@ -6,3 +6,7 @@
 .spacer {
 	margin-top: 5px;
 }
+
+.shrink-img {
+	max-height: 160px;
+}
