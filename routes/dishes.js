@@ -54,10 +54,11 @@ exports.findById = function(req, res) {
 
 exports.updateDish = function(req, res) {
     var id = req.params.id;
-    var wine = req.body;
+    var dish = req.body;
     console.log('Updating dish: ' + id);
-    console.log(wine);
-    delete wine._id;
+    console.log(dish);
+    delete dish._id;
+    delete dish.id;
     try{
         var obj_id = BSON.ObjectID.createFromHexString(id);
     }catch (err){
@@ -65,13 +66,13 @@ exports.updateDish = function(req, res) {
         console.log('invalid request');
     }
     db.collection('dishes', function(err, collection) {
-        collection.update({'_id': obj_id}, wine, {safe:true}, function(err, result) {
+        collection.update({'_id': obj_id}, dish, {safe:true}, function(err, result) {
             if (err) {
-                console.log('Error updating wine: ' + err);
+                console.log('Error updating dish: ' + err);
                 res.send({'error':'An error has occurred'});
             } else {
                 console.log('' + result + ' document(s) updated');
-                res.send(wine);
+                res.send(dish);
             }
         });
     });
@@ -88,10 +89,10 @@ exports.findAll = function(req, res) {
 };
  
 exports.addDish = function(req, res) {
-    var wine = req.body;
-    console.log('Adding wine: ' + JSON.stringify(wine));
+    var dish = req.body;
+    console.log('Adding dish: ' + JSON.stringify(dish));
     db.collection('dishes', function(err, collection) {
-        collection.insert(wine, {safe:true}, function(err, result) {
+        collection.insert(dish, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred'});
             } else {
@@ -104,7 +105,7 @@ exports.addDish = function(req, res) {
  
 exports.deleteDish = function(req, res) {
     var id = req.params.id;
-    console.log('Deleting wine: ' + id);
+    console.log('Deleting dish: ' + id);
     db.collection('dishes', function(err, collection) {
         collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
             if (err) {
