@@ -23,9 +23,8 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			'click #relations-menu .newItem': 'launch_modal_relations',
 			'click #delete' : 'delete_dish',
 			'click #save-basic-changes': 'save_basic',
-			'dragenter #dropPicture' : "dragEnterLeaveEvent",
-			'drop #dropPicture' : "dropHandler",
-			'drop #dropVideo' : "dropVideoHandler"
+			'drop' : "dropHandler",
+			'dragenter' : "dragEnterLeaveEvent"
 		},
 
 		delete_dish: function () {
@@ -75,41 +74,41 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			}
 		},
 
-		dropVideoHandler: function (event){
-			event.stopPropagation();
-	        event.preventDefault();
+		// dropVideoHandler: function (event){
+		// 	event.stopPropagation();
+	 //        event.preventDefault();
 
-	        var e = event.originalEvent;
-	        e.dataTransfer.dropEffect = 'copy';
-	        this.videoFile = e.dataTransfer.files[0];
+	 //        var e = event.originalEvent;
+	 //        e.dataTransfer.dropEffect = 'copy';
+	 //        this.videoFile = e.dataTransfer.files[0];
 
-	        // Read the image file from the local file system and display it in the img tag
-	        var reader = new FileReader();
+	 //        // Read the image file from the local file system and display it in the img tag
+	 //        var reader = new FileReader();
 
-	        reader.readAsDataURL(this.videoFile);
+	 //        reader.readAsDataURL(this.videoFile);
 
-	        var thisView = this;
-	        var fd = new FormData();
-		    fd.append('uploadingVideo', this.videoFile);
-		    var xhr = new XMLHttpRequest();
-		    xhr.upload.addEventListener('progress', uploadProgress, false);
-		    xhr.addEventListener('load', uploadComplete, false);
-		    xhr.open('POST', '/api/video-upload');
-		    xhr.send(fd);
+	 //        var thisView = this;
+	 //        var fd = new FormData();
+		//     fd.append('uploadingVideo', this.videoFile);
+		//     var xhr = new XMLHttpRequest();
+		//     xhr.upload.addEventListener('progress', uploadProgress, false);
+		//     xhr.addEventListener('load', uploadComplete, false);
+		//     xhr.open('POST', '/api/video-upload');
+		//     xhr.send(fd);
 
-		    function uploadComplete(evt) {
-				var responseUpload = JSON.parse(evt.target.response);
-				console.log(responseUpload);
-			};
+		//     function uploadComplete(evt) {
+		// 		var responseUpload = JSON.parse(evt.target.response);
+		// 		console.log(responseUpload);
+		// 	};
 
-			function uploadProgress(evt) {
-				console.log('progress... ');
-				if (evt.lengthComputable) {
-					var percentComplete = (evt.loaded/evt.total)*100;
-					console.log('********************************** porcentaje ' + percentComplete);
-				}
-			};
-		},
+		// 	function uploadProgress(evt) {
+		// 		console.log('progress... ');
+		// 		if (evt.lengthComputable) {
+		// 			var percentComplete = (evt.loaded/evt.total)*100;
+		// 			console.log('********************************** porcentaje ' + percentComplete);
+		// 		}
+		// 	};
+		// },
 
 		launch_modal_relations: function(ev) {
 			var thisView = this;

@@ -16,7 +16,7 @@ exports.uploadPhoto = function(req, res) {
 };
 
 exports.uploadVideo = function(req, res) {
-    var childProcess = require('child_process'),ffmpeg;
+    // var childProcess = require('child_process'),ffmpeg;
     console.log('uploading video0');
     var fileName = req.files.uploadingVideo.name.split(' ').join('_');
     var tmp_path = req.files.uploadingVideo.path;
