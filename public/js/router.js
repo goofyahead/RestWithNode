@@ -23,9 +23,10 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
     },
 
     index: function(){
+      console.log("index called");
       $('.nav li').removeClass('active');
       $('#home-link').addClass('active');
-      $('#content').empty();
+      // $('#content').empty();
     },
 
     showNewCategory: function() {
@@ -87,7 +88,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
         console.log('error retrieving data');
         $('#content').html('<h1>ERROR AUTH</h1>');
       }
-    });
+  });
   },
 
   showDishes: function(){

@@ -3,7 +3,7 @@
 define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap','models/categories',
 	'models/menus','models/tags','models/ingredients','models/dishes','views/modal_relations'],
 	function(Backbone, $, dish, ModalView, bootstrap, Categories,
-	 Menus, Tags, Ingredients, Dishes, ModalRelations){
+	 Menus, Tags, Ingredients, Dishes, ModalRelations) {
 	var DishView = Backbone.View.extend({
 		template: _.template(dish),
 
@@ -15,6 +15,13 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			this.model.on('change', this.render, this);
 		},
 
+
+		render: function(){
+			console.log('rendering dishView');
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		},
+
 		events: {
 			'click #menus-menu .newItem': 'launch_modal_menu',
 			'click #categories-menu .newItem': 'launch_modal_categories',
@@ -23,8 +30,12 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			'click #relations-menu .newItem': 'launch_modal_relations',
 			'click #delete' : 'delete_dish',
 			'click #save-basic-changes': 'save_basic',
-			'drop' : "dropHandler",
-			'dragenter' : "dragEnterLeaveEvent"
+			'click #dropPicture' : 'alertMe',
+			'drop #dropPicture' : 'dropHandler'
+		},
+
+		alertMe: function () {
+			console.log('clicked on image');
 		},
 
 		delete_dish: function () {
@@ -39,14 +50,11 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			this.model.updateBasicInfo(name, description, price);
 		},
 
-		dragEnterLeaveEvent: function (event) {
-			console.log('enter drop');
-		},
-
 		dropHandler: function(event) {
+			event.preventDefault();
 			console.log('drop received');
 			event.stopPropagation();
-	        event.preventDefault();
+
 
 	        var e = event.originalEvent;
 	        e.dataTransfer.dropEffect = 'copy';
@@ -73,43 +81,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 				thisView.model.updatePicture(responseUpload.name);
 			}
 		},
-
-		// dropVideoHandler: function (event){
-		// 	event.stopPropagation();
-	 //        event.preventDefault();
-
-	 //        var e = event.originalEvent;
-	 //        e.dataTransfer.dropEffect = 'copy';
-	 //        this.videoFile = e.dataTransfer.files[0];
-
-	 //        // Read the image file from the local file system and display it in the img tag
-	 //        var reader = new FileReader();
-
-	 //        reader.readAsDataURL(this.videoFile);
-
-	 //        var thisView = this;
-	 //        var fd = new FormData();
-		//     fd.append('uploadingVideo', this.videoFile);
-		//     var xhr = new XMLHttpRequest();
-		//     xhr.upload.addEventListener('progress', uploadProgress, false);
-		//     xhr.addEventListener('load', uploadComplete, false);
-		//     xhr.open('POST', '/api/video-upload');
-		//     xhr.send(fd);
-
-		//     function uploadComplete(evt) {
-		// 		var responseUpload = JSON.parse(evt.target.response);
-		// 		console.log(responseUpload);
-		// 	};
-
-		// 	function uploadProgress(evt) {
-		// 		console.log('progress... ');
-		// 		if (evt.lengthComputable) {
-		// 			var percentComplete = (evt.loaded/evt.total)*100;
-		// 			console.log('********************************** porcentaje ' + percentComplete);
-		// 		}
-		// 	};
-		// },
-
+		
 		launch_modal_relations: function(ev) {
 			var thisView = this;
 			var dishes = new Dishes();
@@ -208,12 +180,8 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 	              console.log('failure');
 	            }
 		    });		
-		},
-
-		render: function(){
-			console.log('rendering dishView');
-			this.$el.html(this.template(this.model.toJSON()));
 		}
+
 	});
 
 	return DishView;
