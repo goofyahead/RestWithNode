@@ -21,8 +21,16 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			'click #tags-menu .newItem': 'launch_modal_tags',
 			'click #ingredients-menu .newItem': 'launch_modal_ingredients',
 			'click #relations-menu .newItem': 'launch_modal_relations',
+			'click #delete' : 'delete_dish',
 			'click #save-basic-changes': 'save_basic',
-			'drop #dropPicture' : "dropHandler"
+			'dragenter #dropPicture' : "dragEnterLeaveEvent",
+			'drop #dropPicture' : "dropHandler",
+			'drop #dropVideo' : "dropVideoHandler"
+		},
+
+		delete_dish: function () {
+			this.model.deleteMyself();
+			Backbone.history.navigate('/', {trigger: true});
 		},
 
 		save_basic: function (event) {
@@ -30,6 +38,10 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			var description = $('#inputDescription').val();
 			var price = $('#inputPrice').val();
 			this.model.updateBasicInfo(name, description, price);
+		},
+
+		dragEnterLeaveEvent: function (event) {
+			console.log('enter drop');
 		},
 
 		dropHandler: function(event) {
@@ -51,13 +63,8 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 	        var thisView = this;
 	        var fd = new FormData();
 		    fd.append('uploadingFile', this.pictureFile);
-		    fd.append('date', (new Date()).toString()); // req.body.date
-		    fd.append('comment', 'This is a test.'); // req.body.comment
 		    var xhr = new XMLHttpRequest();
-		    xhr.upload.addEventListener('progress', this.uploadProgress, false);
 		    xhr.addEventListener('load', uploadComplete, false);
-		    xhr.addEventListener('error', this.uploadFailed, false);
-		    xhr.addEventListener('abort', this.uploadCanceled, false);
 		    xhr.open('POST', '/api/file-upload');
 		    xhr.send(fd);
 
@@ -68,19 +75,43 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			}
 		},
 
-		uploadProgress: function (evt) {
-			console.log('progress');	
+		dropVideoHandler: function (event){
+			event.stopPropagation();
+	        event.preventDefault();
+
+	        var e = event.originalEvent;
+	        e.dataTransfer.dropEffect = 'copy';
+	        this.videoFile = e.dataTransfer.files[0];
+
+	        // Read the image file from the local file system and display it in the img tag
+	        var reader = new FileReader();
+
+	        reader.readAsDataURL(this.videoFile);
+
+	        var thisView = this;
+	        var fd = new FormData();
+		    fd.append('uploadingVideo', this.videoFile);
+		    var xhr = new XMLHttpRequest();
+		    xhr.upload.addEventListener('progress', uploadProgress, false);
+		    xhr.addEventListener('load', uploadComplete, false);
+		    xhr.open('POST', '/api/video-upload');
+		    xhr.send(fd);
+
+		    function uploadComplete(evt) {
+				var responseUpload = JSON.parse(evt.target.response);
+				console.log(responseUpload);
+			};
+
+			function uploadProgress(evt) {
+				console.log('progress... ');
+				if (evt.lengthComputable) {
+					var percentComplete = (evt.loaded/evt.total)*100;
+					console.log('********************************** porcentaje ' + percentComplete);
+				}
+			};
 		},
 
-		uploadFailed: function (evt) {
-			alert('There was an error attempting to upload the file.');
-		},
-
-		uploadCanceled: function (evt) {
-			alert('The upload has been canceled by the user or the browser dropped the connection.');
-		},
-
-		launch_modal_relations: function(ev){
+		launch_modal_relations: function(ev) {
 			var thisView = this;
 			var dishes = new Dishes();
 			dishes.fetch({

@@ -16,17 +16,23 @@ app.configure(function(){
 //GET REQUESTS
 app.get('/api/dishes', dishes.findAll);
 app.get('/api/dishes/:id', dishes.findById);
+app.get('/api/dishes/search/:query?', dishes.query);
 app.get('/api/menus', menus.findAll);
 app.get('/api/tags', tags.findAll);
 app.get('/api/ingredients', ingredients.findAll);
 app.get('/api/categories', categories.findAll);
+app.get('/api/categories/:id', categories.findById);
 //PUT REQUEST
 app.put('/api/dishes/:id', dishes.updateDish);
+app.put('/api/categories/:id', categories.updateCategory);
 //POST REQUEST
 app.post('/api/dishes', dishes.addDish);
-app.post('/api/file-upload', files.uploadFile);
+app.post('/api/categories', categories.addCategory);
+app.post('/api/file-upload', files.uploadPhoto);
+app.post('/api/video-upload', files.uploadVideo);
 //DELETE REQUEST
 app.delete('/api/dishes/:id', dishes.deleteDish);
+app.delete('/api/categories/:id', categories.deleteCategory);
 
 app.listen(3000);
 console.log('Listening on port 3000...');

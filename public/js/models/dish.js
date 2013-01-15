@@ -19,8 +19,13 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 	        tags: [],
 	        ingredients: [],
 	        menu: [],
-	        video: ""
+	        video: null
     	},
+
+    	deleteMyself: function () {
+	   		this.destroy();
+	   		eventDispatcher.trigger('app:dishDestroyed');
+   		},
 
 		updateFields: function ( what, updates  ){
 			console.log('updating model ' + what + ' with: ' + updates);
