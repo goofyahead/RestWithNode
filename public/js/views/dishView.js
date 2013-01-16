@@ -19,7 +19,6 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		render: function(){
 			console.log('rendering dishView');
 			this.$el.html(this.template(this.model.toJSON()));
-			return this;
 		},
 
 		events: {
@@ -30,12 +29,45 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			'click #relations-menu .newItem': 'launch_modal_relations',
 			'click #delete' : 'delete_dish',
 			'click #save-basic-changes': 'save_basic',
-			'click #dropPicture' : 'alertMe',
-			'drop #dropPicture' : 'dropHandler'
+			'drop #dropPicture' : 'dropPhoto',
+			'drop #dropVideo' : 'dropVideo',
+			'dragover #dropPicture' : 'dragover',
+			'dragover #dropVideo' : 'dragover'
 		},
 
-		alertMe: function () {
-			console.log('clicked on image');
+		dropVideo: function (event) {
+			event.preventDefault();
+			console.log('drop received');
+			event.stopPropagation();
+
+
+	        var e = event.originalEvent;
+	        this.videoFile = e.dataTransfer.files[0];
+
+	        var thisView = this;
+	        var fd = new FormData();
+		    fd.append('uploadingVideo', this.videoFile);
+		    var xhr = new XMLHttpRequest();
+		    xhr.addEventListener('load', uploadComplete, false);
+		    xhr.addEventListener('progress', uploadProgress, false);
+		    xhr.open('POST', '/api/video-upload');
+		    xhr.send(fd);
+
+		    function uploadProgress(evt) {
+		    	if (evt.lengthComputable) {
+	   				var percentComplete = evt.loaded / evt.total;
+	   				console.log(' percentable ' + percentComplete);
+	   			}
+		    }
+
+		    function uploadComplete(evt) {
+				var responseUpload = JSON.parse(evt.target.response);
+				console.log(responseUpload);
+			}
+		},
+
+		dragover: function (event) {
+			event.preventDefault();
 		},
 
 		delete_dish: function () {
@@ -50,7 +82,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			this.model.updateBasicInfo(name, description, price);
 		},
 
-		dropHandler: function(event) {
+		dropPhoto: function(event) {
 			event.preventDefault();
 			console.log('drop received');
 			event.stopPropagation();
@@ -72,8 +104,16 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		    fd.append('uploadingFile', this.pictureFile);
 		    var xhr = new XMLHttpRequest();
 		    xhr.addEventListener('load', uploadComplete, false);
+		    xhr.addEventListener('progress', uploadProgress, false);
 		    xhr.open('POST', '/api/file-upload');
 		    xhr.send(fd);
+
+		    function uploadProgress(evt) {
+		    	if (evt.lengthComputable) {
+	   				var percentComplete = evt.loaded / evt.total;
+	   				console.log(percentComplete);
+	   			}
+		    }
 
 		    function uploadComplete(evt) {
 				console.log(evt);

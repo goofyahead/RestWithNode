@@ -33,6 +33,13 @@
 	</div>	
 </div>
 <div class="row">
+	<% if (video) { %>
+		<img id='dropVideo' class="img-polaroid shrink-img" src=/images/<%= video %> >
+		<% } else { %>
+		<img id='dropVideo' class="img-polaroid shrink-img" src=/images/upload-video.png >
+	<% } %>
+</div>
+<div class="row">
 	<div class="span3" id="menus">
 		<ul class="nav nav-tabs nav-stacked" id='menus-menu'>
 			<li class="nav-header" id='left_list_header'>Menus</li>
