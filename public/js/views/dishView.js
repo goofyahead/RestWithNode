@@ -3,7 +3,7 @@
 define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap','models/categories',
 	'models/menus','models/tags','models/ingredients','models/dishes','views/modal_relations'],
 	function(Backbone, $, dish, ModalView, bootstrap, Categories,
-	 Menus, Tags, Ingredients, Dishes, ModalRelations){
+	 Menus, Tags, Ingredients, Dishes, ModalRelations) {
 	var DishView = Backbone.View.extend({
 		template: _.template(dish),
 
@@ -15,27 +15,63 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			this.model.on('change', this.render, this);
 		},
 
+
+		render: function(){
+			console.log('rendering dishView');
+			this.$el.html(this.template(this.model.toJSON()));
+		},
+
 		events: {
 			'click #menus-menu .newItem': 'launch_modal_menu',
 			'click #categories-menu .newItem': 'launch_modal_categories',
 			'click #tags-menu .newItem': 'launch_modal_tags',
 			'click #ingredients-menu .newItem': 'launch_modal_ingredients',
 			'click #relations-menu .newItem': 'launch_modal_relations',
+			'click #delete' : 'delete_dish',
 			'click #save-basic-changes': 'save_basic',
-			'drop #dropPicture' : "dropHandler"
+			'drop #dropPicture' : 'dropPhoto',
+			'drop #dropVideo' : 'dropVideo',
+			'dragover #dropPicture' : 'dragover',
+			'dragover #dropVideo' : 'dragover'
 		},
 
-		save_basic: function (event) {
-			var name = $('#inputName').val();
-			var description = $('#inputDescription').val();
-			var price = $('#inputPrice').val();
-			this.model.updateBasicInfo(name, description, price);
-		},
-
-		dropHandler: function(event) {
+		dropVideo: function (event) {
+			event.preventDefault();
 			console.log('drop received');
 			event.stopPropagation();
-	        event.preventDefault();
+
+
+	        var e = event.originalEvent;
+	        this.videoFile = e.dataTransfer.files[0];
+
+	        var thisView = this;
+	        var fd = new FormData();
+		    fd.append('uploadingVideo', this.videoFile);
+		    var xhr = new XMLHttpRequest();
+		    xhr.addEventListener('load', uploadComplete, false);
+		    xhr.addEventListener('progress', uploadProgress, false);
+		    xhr.open('POST', '/api/video-upload');
+		    xhr.send(fd);
+
+		    function uploadProgress(evt) {
+		    	if (evt.lengthComputable) {
+	   				var percentComplete = evt.loaded / evt.total;
+	   				console.log(' percentable ' + percentComplete);
+	   			}
+		    }
+
+		    function uploadComplete(evt) {
+				var responseUpload = JSON.parse(evt.target.response);
+				console.log(responseUpload);
+				thisView.model.updateVideo(responseUpload.name, responseUpload.thumbnail);
+			}
+		},
+
+		dropPhoto: function(event) {
+			event.preventDefault();
+			console.log('drop received');
+			event.stopPropagation();
+
 
 	        var e = event.originalEvent;
 	        e.dataTransfer.dropEffect = 'copy';
@@ -51,15 +87,18 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 	        var thisView = this;
 	        var fd = new FormData();
 		    fd.append('uploadingFile', this.pictureFile);
-		    fd.append('date', (new Date()).toString()); // req.body.date
-		    fd.append('comment', 'This is a test.'); // req.body.comment
 		    var xhr = new XMLHttpRequest();
-		    xhr.upload.addEventListener('progress', this.uploadProgress, false);
 		    xhr.addEventListener('load', uploadComplete, false);
-		    xhr.addEventListener('error', this.uploadFailed, false);
-		    xhr.addEventListener('abort', this.uploadCanceled, false);
+		    xhr.addEventListener('progress', uploadProgress, false);
 		    xhr.open('POST', '/api/file-upload');
 		    xhr.send(fd);
+
+		    function uploadProgress(evt) {
+		    	if (evt.lengthComputable) {
+	   				var percentComplete = evt.loaded / evt.total;
+	   				console.log(percentComplete);
+	   			}
+		    }
 
 		    function uploadComplete(evt) {
 				console.log(evt);
@@ -68,19 +107,24 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			}
 		},
 
-		uploadProgress: function (evt) {
-			console.log('progress');	
+		dragover: function (event) {
+			event.preventDefault();
 		},
 
-		uploadFailed: function (evt) {
-			alert('There was an error attempting to upload the file.');
+		delete_dish: function () {
+			this.model.deleteMyself();
+			this.remove();
+  			this.unbind();
 		},
 
-		uploadCanceled: function (evt) {
-			alert('The upload has been canceled by the user or the browser dropped the connection.');
+		save_basic: function (event) {
+			var name = $('#inputName').val();
+			var description = $('#inputDescription').val();
+			var price = $('#inputPrice').val();
+			this.model.updateBasicInfo(name, description, price);
 		},
 
-		launch_modal_relations: function(ev){
+		launch_modal_relations: function(ev) {
 			var thisView = this;
 			var dishes = new Dishes();
 			dishes.fetch({
@@ -178,12 +222,8 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 	              console.log('failure');
 	            }
 		    });		
-		},
-
-		render: function(){
-			console.log('rendering dishView');
-			this.$el.html(this.template(this.model.toJSON()));
 		}
+
 	});
 
 	return DishView;

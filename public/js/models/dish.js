@@ -10,17 +10,29 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 
 		defaults: {
 	        _id: null,
-	        name: "",
-	        description: "",
-	        price: "",
+	        name: '',
+	        description: '',
+	        price: '',
 	        picture: null,
 	        categories: [],
 	        recommendations: [],
 	        tags: [],
 	        ingredients: [],
 	        menu: [],
-	        video: ""
+	        thumbnail: '',
+	        video: null
     	},
+
+    	deleteMyself: function () {
+	   		this.destroy();
+	   		eventDispatcher.trigger('app:dishDestroyed');
+   		},
+
+   		updateVideo: function ( mVideo, mThumbnail ){
+   			this.set({video: mVideo});
+   			this.set({thumbnail: mThumbnail});
+   			this.save();
+   		},
 
 		updateFields: function ( what, updates  ){
 			console.log('updating model ' + what + ' with: ' + updates);

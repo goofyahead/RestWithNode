@@ -2,53 +2,61 @@
 	<div id="modalplacer">
 	</div>
 	<div class="span9">
-		 <legend>Descripción de plato</legend>
+		<legend>Descripción de plato</legend>
 	</div>
-	<div class="span5">
+	<div class="span4">
 		<div class="controls controls-row">
-			<input class="span5" type="text" value="<%= _id === null ? '' : _id %>" disabled>
+			<input class="span4" type="text" value="<%= _id === null ? '' : _id %>" disabled>
 		</div>
-
 		<div class="controls controls-row">
-			<input id='inputName' class="span4" type="text" value="<%= name %>">
+			<input id='inputName' class="span3" type="text" value="<%= name %>">
 			<input id='inputPrice' class="span1" type="text" value="<%= price %>">
 		</div>
-
 		<div class="controls controls-row">
-			<textarea id='inputDescription' class="span5" rows="4" style="resize: none;"> <%= description %> </textarea>
+			<textarea id='inputDescription' class="span4" rows="4" style="resize: none;"> <%= description %> </textarea>
 		</div>
 		<button id="save-basic-changes" class="btn btn-success"> Guardar </button>
-
+		<% if (_id != null) { %>
+		<button id="delete" class="btn btn-danger"> Borrar </button>
+		<% } else { %>
+		<button id="delete" class="btn btn-danger disabled"> Borrar </button>
+		<% } %>
 	</div>
 	<% if (_id === null) { %>
 	<% } else { %>
-	<div class="span4">
+	<div class="span2">
 		<% if (picture) { %>
-			<img id='dropPicture' class="img-polaroid shrink-img" src=/images/<%= picture %> >
+		<img id='dropPicture' class="img-polaroid shrink-img" src=/images/<%= picture %> >
 		<% } else { %>
-			<img id='dropPicture' class="img-polaroid shrink-img" src=/images/noimage.png >
+		<img id='dropPicture' class="img-polaroid shrink-img" src=/images/noimage.png >
+		<% } %>
+	</div>	
+	<div class="span2">
+		<% if (thumbnail != '') { %>
+		<img id='dropVideo' class="img-polaroid shrink-img" src=/videos/<%= thumbnail %> >
+		<% } else { %>
+		<img id='dropVideo' class="img-polaroid shrink-img" src=/images/upload-video.png >
 		<% } %>
 	</div>
+</div>
+<div class="row">
+	<div class="span3" id="menus">
+		<ul class="nav nav-tabs nav-stacked" id='menus-menu'>
+			<li class="nav-header" id='left_list_header'>Menus</li>
+			<% console.log(categories); %>
+			<% _.each(menu, function(menuElement){ console.log(menuElement); %>
+			<li><a href="#"> <%= menuElement %> </a> </li>
+			<% }); %>
+			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
+		</ul>
 	</div>
-
-	<div class="row">
-		<div class="span3" id="menus">
-			<ul class="nav nav-tabs nav-stacked" id='menus-menu'>
-				<li class="nav-header" id='left_list_header'>Menus</li>
-				<% console.log(categories); %>
-				<% _.each(menu, function(menuElement){ console.log(menuElement); %>
-					<li><a href="#"> <%= menuElement %> </a> </li>
-				<% }); %>
-				<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
-			</ul>
-		</div>
 
 	<div class="span3" id="categories">
 		<ul class="nav nav-tabs nav-stacked" id='categories-menu'>
 			<li class="nav-header" id='left_list_header'>Categorias</li>
 			<% console.log(categories); %>
 			<% _.each(categories, function(dishElement){ console.log(dishElement); %>
-				<li><a href="#"> <%= dishElement %> </a> </li>
+			<li><a href="#"> <%= dishElement %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
@@ -59,19 +67,19 @@
 			<li class="nav-header" id='left_list_header'>Recomendaciones</li>
 			<% console.log(categories); %>
 			<% _.each(recommendations, function(recomElement){ console.log(recomElement); %>
-				<li><a href="#"> <%= recomElement.name %> </a> </li>
+			<li><a href="#"> <%= recomElement.name %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
 	</div>
- </div>
- <div class="row">
+</div>
+<div class="row">
 	<div class="span3" id="tags">
 		<ul class="nav nav-tabs nav-stacked" id='tags-menu'>
 			<li class="nav-header" id='left_list_header'>Tags</li>
 			<% console.log(categories); %>
 			<% _.each(tags, function(tagElement){ console.log(tagElement); %>
-				<li><a href="#"> <%= tagElement %> </a> </li>
+			<li><a href="#"> <%= tagElement %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
@@ -82,7 +90,7 @@
 			<li class="nav-header" id='left_list_header'>Ingredientes</li>
 			<% console.log(categories); %>
 			<% _.each(ingredients, function(ingredientElement){ console.log(ingredientElement); %>
-				<li><a href="#"> <%= ingredientElement %> </a> </li>
+			<li><a href="#"> <%= ingredientElement %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>

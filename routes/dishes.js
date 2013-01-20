@@ -16,13 +16,37 @@ db.open(function(err, db) {
     db.createCollection('dishes', {safe:true}, function(err, collection) {
         if (err) {
             console.log("The 'dishes' collection doesn't exist. Creating it with sample data...");
-            populateDB();
         } else {
             console.log("Collection 'dishes' exists.");
         }
         });
     }
 });
+
+exports.query = function (req, res){
+    console.log('query captured');
+    console.log(req.query);
+    var type = req.query.type;
+    var value = req.query.value;
+    console.log(type + " : " + value);
+    var temp = {};
+    temp[type] = value;
+    db.collection('dishes', function(err, collection) {
+            if (err){
+                console.log('not found');
+            } else {
+                collection.find(temp).toArray(function(err, items) {
+                    if(err) {
+                        console.log('not found');
+                        res.send('nothing found');
+                    } else {
+                        console.log(items);
+                        res.send(items);
+                    }
+                });
+            }
+        });
+};
 
 exports.findById = function(req, res) {
     // if (checkAuth(req, res)){
@@ -76,7 +100,7 @@ exports.updateDish = function(req, res) {
             }
         });
     });
-}
+};
  
 exports.findAll = function(req, res) {
     console.log('Retrieving all dishes:');
@@ -87,7 +111,7 @@ exports.findAll = function(req, res) {
         });
     });
 };
- 
+
 exports.addDish = function(req, res) {
     var dish = req.body;
     console.log('Adding dish: ' + JSON.stringify(dish));
@@ -101,7 +125,7 @@ exports.addDish = function(req, res) {
             }
         });
     });
-}
+};
  
 exports.deleteDish = function(req, res) {
     var id = req.params.id;
@@ -111,12 +135,15 @@ exports.deleteDish = function(req, res) {
             if (err) {
                 res.send({'error':'An error has occurred - ' + err});
             } else {
+                collection.update( {} ,{$pull: {recommendations: {_id: id}}}, {w:1, multi:true}, function (err, result) {
+                                console.log(result);
+                });
                 console.log('' + result + ' document(s) deleted');
                 res.send(req.body);
             }
         });
     });
-}
+};
 
 checkAuth = function(req, res){
     console.log('new parameter ' + req.query.element);
@@ -130,42 +157,4 @@ checkAuth = function(req, res){
         res.send('auth error',401);
         return false;
     }
-};
-
-var populateDB = function() {
- 
-    var dishes = [
-    {
-    	menu: [1],
-        name: "Tosta de canguro",
-        description: "Una suave tostada de pan con unos trozos de fresco canguro.",
-        price: 4.95,
-        categories: ["Entrante","Tostas"],
-        ingredients: ["Canguro","pan","aceite","mayonesa"],
-        recomandations: [],
-        tags: [],
-        image: "tosta_canguro.jpg",
-        video: "tosta_canguro.mov"
-    },
-    {
-    	menu: [1],
-        name: "Tosta de queso de cabra",
-        description: "Una suave tostada de pan con queso de cabra caramelizado.",
-        price: 4.95,
-        categories: ["Entrante","Tostas"],
-        ingredients: ["Queso","pan","cebolla","mayonesa"],
-        recomandations: [],
-        tags: [],
-        image: "tosta_queso.jpg",
-        video: "tosta_queso.mov"
-    }];
- 
-    db.collection('dishes', function(err, collection) {
-        collection.insert(dishes, {safe:true}, function(err, result) {
-            if (err){
-                console.log('Error inserting on database' + err);
-            }
-        });
-    });
- 
 };

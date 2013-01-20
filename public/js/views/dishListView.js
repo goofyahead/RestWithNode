@@ -11,10 +11,10 @@ define(['backbone','views/dishListElement','text!templates/blueButton.html','eve
 			this.collection.on('reset', this.addAll, this);
 			this.collection.on('change', this.change, this);
 			eventDispatcher.on('app:dishCreated', this.reload, this);
+			eventDispatcher.on('app:dishDestroyed', this.reload, this);
 		},
 
 		reload: function() {
-			console.log('la lista debe actualizarseeeee el modelo ha creado un nuevo plato +++++++++++++++++++');
 			this.collection.fetch();
 		},
 
@@ -29,12 +29,15 @@ define(['backbone','views/dishListElement','text!templates/blueButton.html','eve
 		},
 
 		addAll: function() {
+
 			$('#left_menu').empty();
+			$('#left_menu').append('<li class="nav-header" id="left_list_header">List header</li>');
 			console.log('add all called');
 			$('#left_list_header').html('Lista de platos');
 			this.collection.forEach(this.addOne, this);
 			var compiledTemplate = this.template({
-            	action: '#newDish'
+            	action: '#newDish',
+            	textButton: 'nuevo plato'
         	});
 			$('#left_menu').append(compiledTemplate);
 		}

@@ -1,10 +1,11 @@
 // category menu
 
-define(['backbone'], function(Backbone){
+define(['backbone','models/ingredient'], function(Backbone, Ingredient){
 
-	var Ingredient = Backbone.Model.extend({
-		urlRoot: '/api/ingredients'
+	var Ingredients = Backbone.Collection.extend({
+		url: '/api/ingredients',
+		model: Ingredient
 	});
 
-	return Ingredient;
+	return Ingredients;
 });
