@@ -63,23 +63,8 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		    function uploadComplete(evt) {
 				var responseUpload = JSON.parse(evt.target.response);
 				console.log(responseUpload);
+				thisView.model.updateVideo(responseUpload.name, responseUpload.thumbnail);
 			}
-		},
-
-		dragover: function (event) {
-			event.preventDefault();
-		},
-
-		delete_dish: function () {
-			this.model.deleteMyself();
-			Backbone.history.navigate('/', {trigger: true});
-		},
-
-		save_basic: function (event) {
-			var name = $('#inputName').val();
-			var description = $('#inputDescription').val();
-			var price = $('#inputPrice').val();
-			this.model.updateBasicInfo(name, description, price);
 		},
 
 		dropPhoto: function(event) {
@@ -121,7 +106,24 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 				thisView.model.updatePicture(responseUpload.name);
 			}
 		},
-		
+
+		dragover: function (event) {
+			event.preventDefault();
+		},
+
+		delete_dish: function () {
+			this.model.deleteMyself();
+			this.remove();
+  			this.unbind();
+		},
+
+		save_basic: function (event) {
+			var name = $('#inputName').val();
+			var description = $('#inputDescription').val();
+			var price = $('#inputPrice').val();
+			this.model.updateBasicInfo(name, description, price);
+		},
+
 		launch_modal_relations: function(ev) {
 			var thisView = this;
 			var dishes = new Dishes();

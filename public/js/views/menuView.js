@@ -5,7 +5,7 @@ define(['backbone','text!templates/basicElement.html'], function (Backbone, cate
 		template: _.template(categoryTemplate),
 
 		tagName: 'div',
-		id: 'category',
+		id: 'menu',
 
 		initialize: function() {
 			this.model.on('change', this.render, this);
@@ -14,10 +14,10 @@ define(['backbone','text!templates/basicElement.html'], function (Backbone, cate
 
 		events: {
 			'click #save-basic-changes' : 'save_basic',
-			'click #delete' : 'deleteCategory'
+			'click #delete' : 'delete'
 		},
 
-		deleteCategory: function() {
+		delete: function() {
 			this.model.deleteMyself();
 			this.remove();
   			this.unbind();

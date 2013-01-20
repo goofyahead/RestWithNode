@@ -3,7 +3,7 @@ define(['backbone','text!templates/basicList.html', 'text!templates/blueButton.h
 	'eventDispatcher'],
  function(Backbone, myTemplate, myBlueTemplate, eventDispatcher){
 
-	var CategoriesListView = Backbone.View.extend({
+	var TagsListView = Backbone.View.extend({
 		//attach to an existing element
 		el: $('#left_menu'),
 		template: _.template(myTemplate),
@@ -11,8 +11,8 @@ define(['backbone','text!templates/basicList.html', 'text!templates/blueButton.h
 
 		initialize: function(){
 			this.collection.on('reset', this.addAll, this);
-			eventDispatcher.on('app:categoryCreated', this.reload, this);
-			eventDispatcher.on('app:categoryDestroyed', this.reload, this);
+			eventDispatcher.on('app:tagCreated', this.reload, this);
+			eventDispatcher.on('app:tagDestroyed', this.reload, this);
 		},
 
 		reload: function() {
@@ -29,17 +29,17 @@ define(['backbone','text!templates/basicList.html', 'text!templates/blueButton.h
 			$('#left_menu').empty();
 			var compiledTemplate = this.template({
             	elements: this.collection.toJSON(),
-            	url_base: 'categories',
-            	header: 'Lista de categorias'
+            	url_base: 'tags',
+            	header: 'Lista de tags'
         	});
 			$('#left_menu').append(compiledTemplate);
 			var compiledButton = this.buttonTemplate({
-            	action: '#categories/newCategory',
-            	textButton: 'nueva categoria'
+            	action: '#tags/newTag',
+            	textButton: 'nuevo tag'
         	});
         	$('#left_menu').append(compiledButton);
 		}
 	});
 
-	return CategoriesListView;
+	return TagsListView;
 });

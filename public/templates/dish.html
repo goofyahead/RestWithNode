@@ -4,16 +4,16 @@
 	<div class="span9">
 		<legend>Descripción de plato</legend>
 	</div>
-	<div class="span5">
+	<div class="span4">
 		<div class="controls controls-row">
-			<input class="span5" type="text" value="<%= _id === null ? '' : _id %>" disabled>
+			<input class="span4" type="text" value="<%= _id === null ? '' : _id %>" disabled>
 		</div>
 		<div class="controls controls-row">
-			<input id='inputName' class="span4" type="text" value="<%= name %>">
+			<input id='inputName' class="span3" type="text" value="<%= name %>">
 			<input id='inputPrice' class="span1" type="text" value="<%= price %>">
 		</div>
 		<div class="controls controls-row">
-			<textarea id='inputDescription' class="span5" rows="4" style="resize: none;"> <%= description %> </textarea>
+			<textarea id='inputDescription' class="span4" rows="4" style="resize: none;"> <%= description %> </textarea>
 		</div>
 		<button id="save-basic-changes" class="btn btn-success"> Guardar </button>
 		<% if (_id != null) { %>
@@ -24,20 +24,20 @@
 	</div>
 	<% if (_id === null) { %>
 	<% } else { %>
-	<div class="span4">
+	<div class="span2">
 		<% if (picture) { %>
 		<img id='dropPicture' class="img-polaroid shrink-img" src=/images/<%= picture %> >
 		<% } else { %>
 		<img id='dropPicture' class="img-polaroid shrink-img" src=/images/noimage.png >
 		<% } %>
 	</div>	
-</div>
-<div class="row">
-	<% if (video) { %>
-		<img id='dropVideo' class="img-polaroid shrink-img" src=/images/<%= video %> >
+	<div class="span2">
+		<% if (thumbnail != '') { %>
+		<img id='dropVideo' class="img-polaroid shrink-img" src=/videos/<%= thumbnail %> >
 		<% } else { %>
 		<img id='dropVideo' class="img-polaroid shrink-img" src=/images/upload-video.png >
-	<% } %>
+		<% } %>
+	</div>
 </div>
 <div class="row">
 	<div class="span3" id="menus">

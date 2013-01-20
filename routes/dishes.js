@@ -135,6 +135,9 @@ exports.deleteDish = function(req, res) {
             if (err) {
                 res.send({'error':'An error has occurred - ' + err});
             } else {
+                collection.update( {} ,{$pull: {recommendations: {_id: id}}}, {w:1, multi:true}, function (err, result) {
+                                console.log(result);
+                });
                 console.log('' + result + ' document(s) deleted');
                 res.send(req.body);
             }

@@ -1,11 +1,11 @@
 //category definition
 define(['backbone','text!templates/basicElement.html'], function (Backbone, categoryTemplate){
-	var CategoryView = Backbone.View.extend({
+	var IngredientView = Backbone.View.extend({
 
 		template: _.template(categoryTemplate),
 
 		tagName: 'div',
-		id: 'category',
+		id: 'ingredient',
 
 		initialize: function() {
 			this.model.on('change', this.render, this);
@@ -14,10 +14,10 @@ define(['backbone','text!templates/basicElement.html'], function (Backbone, cate
 
 		events: {
 			'click #save-basic-changes' : 'save_basic',
-			'click #delete' : 'deleteCategory'
+			'click #delete' : 'delete'
 		},
 
-		deleteCategory: function() {
+		delete: function() {
 			this.model.deleteMyself();
 			this.remove();
   			this.unbind();
@@ -35,5 +35,5 @@ define(['backbone','text!templates/basicElement.html'], function (Backbone, cate
 		}
 	});
 
-	return CategoryView;
+	return IngredientView;
 });

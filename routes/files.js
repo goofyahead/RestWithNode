@@ -45,16 +45,16 @@ function createThumbnail (origin, size, filename) {
         'ffmpeg  -itsoffset -4  -i ' + origin + 
         ' -vcodec mjpeg -vframes 1 -an -f rawvideo -s ' + size + ' ' + filename, 
         function (error, stdout, stderr) {
-         if (error) {
-           console.log(error.stack);
-           console.log('Error code: '+error.code);
-           console.log('Signal received: '+error.signal);
-       }
-       console.log('Child Process STDOUT: '+stdout);
-       console.log('Child Process STDERR: '+stderr);
-   });
+           if (error) {
+             console.log(error.stack);
+             console.log('Error code: '+error.code);
+             console.log('Signal received: '+error.signal);
+         }
+         console.log('Child Process STDOUT: '+stdout);
+         console.log('Child Process STDERR: '+stderr);
+     });
 
     ffmpeg.on('exit', function (code) {
-     console.log('Child process exited with exit code '+ code);
-    });
+       console.log('Child process exited with exit code '+ code);
+   });
 }

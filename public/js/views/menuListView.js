@@ -11,8 +11,8 @@ define(['backbone','text!templates/basicList.html', 'text!templates/blueButton.h
 
 		initialize: function(){
 			this.collection.on('reset', this.addAll, this);
-			eventDispatcher.on('app:categoryCreated', this.reload, this);
-			eventDispatcher.on('app:categoryDestroyed', this.reload, this);
+			eventDispatcher.on('app:menuCreated', this.reload, this);
+			eventDispatcher.on('app:menuDestroyed', this.reload, this);
 		},
 
 		reload: function() {
@@ -29,13 +29,13 @@ define(['backbone','text!templates/basicList.html', 'text!templates/blueButton.h
 			$('#left_menu').empty();
 			var compiledTemplate = this.template({
             	elements: this.collection.toJSON(),
-            	url_base: 'categories',
-            	header: 'Lista de categorias'
+            	url_base: 'menus',
+            	header: 'Lista de cartas'
         	});
 			$('#left_menu').append(compiledTemplate);
 			var compiledButton = this.buttonTemplate({
-            	action: '#categories/newCategory',
-            	textButton: 'nueva categoria'
+            	action: '#menus/newMenu',
+            	textButton: 'nueva carta'
         	});
         	$('#left_menu').append(compiledButton);
 		}
