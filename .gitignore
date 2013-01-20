@@ -1,3 +1,4 @@
 #ignore all modules can be installed through npm install
 node_modules/*
 public/images/*
+public/videos/*

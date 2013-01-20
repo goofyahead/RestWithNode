@@ -1,0 +1,4 @@
+<li class="nav-header" id="left_list_header"><%= header %></li>
+<% _.each(elements, function(currentElem) { %>
+	<li> <a href="#<%= url_base %>/<%= currentElem._id %>"><%= currentElem.name %></a></li>
+<%	}); %>

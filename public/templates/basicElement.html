@@ -1,0 +1,20 @@
+<div class="span9">
+		 <legend>Descripción de la categoria</legend>
+	</div>
+	<div class="span5">
+		<div class="controls controls-row">
+			<input class="span5" type="text" value="<%= _id === null ? '' : _id %>" disabled>
+		</div>
+		<div class="controls controls-row">
+			<input id='inputName' class="span4" type="text" value="<%= name %>">
+		</div>
+		<div class="controls controls-row">
+			<textarea id='inputDescription' class="span5" rows="4" style="resize: none;"><%= description %></textarea>
+		</div>
+		<button id="save-basic-changes" class="btn btn-success"> Guardar </button>
+		<% if (_id != null) { %>
+			<button id="delete" class="btn btn-danger"> Borrar </button>
+		<% } else { %>
+			<button id="delete" class="btn btn-danger disabled"> Borrar </button>
+		<% } %>
+</div>

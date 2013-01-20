@@ -7,12 +7,7 @@ define(['backbone', 'underscore', 'jquery','models/category'], function(Backbone
 		url: 'api/categories',
 
 		initialize: function(){
-			console.log('initializing dishList');
-		 	this.on('reset', this.alertReset);
-		},
-
-		alertReset: function(){
-			console.log('reset collection model');
+			console.log('initializing category');
 		}
 	});
 
