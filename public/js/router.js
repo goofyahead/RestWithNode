@@ -1,12 +1,13 @@
 //App router
-define(['jquery','underscore','backbone','views/dishView','models/dish','views/dishListView'
-  , 'models/dishes', 'models/categories','views/categoriesListView', 'models/category', 'views/categoryView',
-  'models/menus', 'views/menuListView', 'views/menuView', 'models/menu','models/ingredient','models/tag', 'models/ingredients',
- 'models/tags','views/tagView', 'views/ingredientView', 'views/tagListView', 'views/ingredientsListView'],
+define(['jquery','underscore','backbone','views/dishView','models/dish','views/dishListView', 
+  'models/dishes', 'models/categories','views/categoriesListView', 'models/category', 'views/categoryView',
+  'models/menus', 'views/menuListView', 'views/menuView', 'models/menu','models/ingredient','models/tag',
+  'models/ingredients', 'models/tags','views/tagView', 'views/ingredientView', 'views/tagListView',
+  'views/ingredientsListView', 'models/user','views/userView'],
   function($, _, Backbone, DishView, Dish, DishListView, Dishes, 
     Categories, CategoriesListView, Category, CategoryView, Menus, 
     MenusListView, MenuView, Menu, Ingredient, Tag, Ingredients, Tags, 
-    TagView, IngredientView, TagsListView, IngredientsListView){
+    TagView, IngredientView, TagsListView, IngredientsListView, User, UserView){
 
     
 
@@ -15,6 +16,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
      // Hash maps for routes
      routes : {
       "" : "index",
+      "login" : "logIn",
       "dishes" : "showDishes",
       "dishes/:id" : "showDishById",
       "newDish" : "showNewDish",
@@ -41,6 +43,13 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
       console.log("index called");
       $('.nav li').removeClass('active');
       $('#home-link').addClass('active');
+    },
+
+    logIn: function() {
+      var user = new User();
+      var userView = new UserView({model: user});
+      userView.render();
+      $('#content').html(userView.el);
     },
 
     showTags: function() {
