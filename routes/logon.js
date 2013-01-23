@@ -28,34 +28,39 @@ exports.redirect = function (req, res) {
 	res.redirect("https://" + hostName + ':8443' + req.url);
 },
 
-exports.logIn = function (req, res){
-	console.log('login called on https');
+exports.createAccount = function (req, res) {
 	var user = req.params.userName;
 	var pass = req.params.password;
+},
+
+exports.logIn = function (req, res) {
+	console.log('login called on https' + req.params);
+	var userObjetc = req.body;
+	var user = userObjetc.userName;
+	var pass = userObjetc.password;
 	var shashum = crypto.createHash('sha256');
 
-	var content = 'user:pass';
+	var content = user + ":" + pass;
+	console.log(content);
 	var cyphered = shashum.update(content).digest('hex');
 
 	console.log(cyphered);
 
-	// db.collection('users', function(err, collection) {
-	// 	if (err){
-	// 		console.log('not found');
-	// 	} else {
-	// 		collection.findOne({'user': obj_id}, function(err, item) {
-	// 			if(err) {
-	// 				console.log('not found');
-	// 				res.send('nothing found');
-	// 			} else {
-	// 				if (item.password == pass) {
-	// 					res.send("true");
-	// 				} else {
-	// 					res.send("false");
-	// 				}
-	// 				console.log(item);
-	// 			}
-	// 		});
-	// 	}
-	// });
+
+	db.collection('users', function(err, collection) {
+        if (err){
+            console.log('not found');
+        } else {
+            collection.findOne({'key': cyphered}, function(err, item) {
+                if(! item) {
+                    console.log('not found');
+                    res.send(403, { error: 'something blew up' });
+                } else {
+                    console.log(item);
+                    item.token = cyphered;
+                    res.send(item);
+                }
+            });
+        }
+    });
 };

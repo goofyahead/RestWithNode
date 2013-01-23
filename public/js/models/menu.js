@@ -12,6 +12,14 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 			description: "",
 		},
 
+		initialize: function () {
+			this.on("error", this.errorHandler);
+		},
+
+		errorHandler: function (model, error) {
+			console.log('error handled via events');
+		},
+
 		deleteMyself: function () {
 			this.destroy();
 			eventDispatcher.trigger('app:menuDestroyed');

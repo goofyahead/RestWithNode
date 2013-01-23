@@ -32,7 +32,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
       "ingredients" : "showIngredients",
       "ingredients/newIngredient" : "showNewIngredient",
       "ingredients/:id" : "showIngredientById",
-      "error" : "fourOfour"
+      "*error" : "fourOfour"
     },
 
     initialize: function(){
@@ -46,6 +46,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
     },
 
     logIn: function() {
+      $('#left_menu').empty();
       var user = new User();
       var userView = new UserView({model: user});
       userView.render();
@@ -84,55 +85,55 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
   },
 
   showIngredients: function() {
-      $('#content').empty();
-      $('.nav li').removeClass('active');
-      $('#ingredients-link').addClass('active');
-      var ingredients = new Ingredients();
-      var ingredientsListView = new IngredientsListView({collection: ingredients});
-      ingredients.fetch();
-    },
-
-    showNewIngredient: function() {
-     $('.nav li').removeClass('active');
-     $('#ingredients-link').addClass('active');
-     var ingredient = new Ingredient();
-     var ingredientView = new IngredientView({model: ingredient});
-     ingredientView.render();
-     $('#content').html(ingredientView.el);
-   },
-
-   showIngredientById: function(id) {
-    $('.nav li').removeClass('active');
-    $('#ingredient-link').addClass('active');
-    var ingredient = new Ingredient({_id : id});
-    var ingredientView = new IngredientView({model: ingredient});
-    ingredient.fetch({
-      success: function () {
-        ingredientView.render();
-        $('#content').html(ingredientView.el);
-      }
-    });
-  },
-
-  showMenus: function() {
     $('#content').empty();
     $('.nav li').removeClass('active');
-    $('#menu-link').addClass('active');
-    var menus = new Menus();
-    var menusListView = new MenusListView({collection: menus});
-    menus.fetch();
+    $('#ingredients-link').addClass('active');
+    var ingredients = new Ingredients();
+    var ingredientsListView = new IngredientsListView({collection: ingredients});
+    ingredients.fetch();
   },
 
-  showNewMenu: function() {
+  showNewIngredient: function() {
    $('.nav li').removeClass('active');
-   $('#menu-link').addClass('active');
-   var menu = new Menu();
-   var menuView = new MenuView({model: menu});
-   menuView.render();
-   $('#content').html(menuView.el);
+   $('#ingredients-link').addClass('active');
+   var ingredient = new Ingredient();
+   var ingredientView = new IngredientView({model: ingredient});
+   ingredientView.render();
+   $('#content').html(ingredientView.el);
  },
 
- showMenuById: function(id) {
+ showIngredientById: function(id) {
+  $('.nav li').removeClass('active');
+  $('#ingredient-link').addClass('active');
+  var ingredient = new Ingredient({_id : id});
+  var ingredientView = new IngredientView({model: ingredient});
+  ingredient.fetch({
+    success: function () {
+      ingredientView.render();
+      $('#content').html(ingredientView.el);
+    }
+  });
+},
+
+showMenus: function() {
+  $('#content').empty();
+  $('.nav li').removeClass('active');
+  $('#menu-link').addClass('active');
+  var menus = new Menus();
+  var menusListView = new MenusListView({collection: menus});
+  menus.fetch();
+},
+
+showNewMenu: function() {
+ $('.nav li').removeClass('active');
+ $('#menu-link').addClass('active');
+ var menu = new Menu();
+ var menuView = new MenuView({model: menu});
+ menuView.render();
+ $('#content').html(menuView.el);
+},
+
+showMenuById: function(id) {
   $('.nav li').removeClass('active');
   $('#menu-link').addClass('active');
   var menu = new Menu({_id : id});
@@ -227,9 +228,9 @@ showDishes: function(){
 },
 
 fourOfour: function(error) {
-         // 404 page
-       }
-     });
+  $('#content').html('page does not exists');
+}
+});
 
 return AppRouter;
 });

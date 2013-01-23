@@ -22,12 +22,11 @@ var options = {
 
 app.configure(function(){
 	app.use(express.bodyParser());
-	app.use(express.static(__dirname + '/publics'));
-	app.use(express.bodyParser());
+	app.use('/images', express.static(__dirname + '/public/images'));
+	app.use('/videos', express.static(__dirname + '/public/videos'));
 });
 
 secureApp.configure(function(){
-	secureApp.use(express.bodyParser());
 	secureApp.use(express.static(__dirname + '/public'));
 	secureApp.use(express.bodyParser());
 });
