@@ -29,10 +29,15 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			'click #relations-menu .newItem': 'launch_modal_relations',
 			'click #delete' : 'delete_dish',
 			'click #save-basic-changes': 'save_basic',
+			'click #demo' : 'toggleDemo',
 			'drop #dropPicture' : 'dropPhoto',
 			'drop #dropVideo' : 'dropVideo',
 			'dragover #dropPicture' : 'dragover',
 			'dragover #dropVideo' : 'dragover'
+		},
+
+		toggleDemo: function (event) {
+			this.model.toggleDemo();
 		},
 
 		dropVideo: function (event) {

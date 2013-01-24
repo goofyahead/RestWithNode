@@ -1,12 +1,13 @@
 //App router
-define(['jquery','underscore','backbone','views/dishView','models/dish','views/dishListView'
-  , 'models/dishes', 'models/categories','views/categoriesListView', 'models/category', 'views/categoryView',
-  'models/menus', 'views/menuListView', 'views/menuView', 'models/menu','models/ingredient','models/tag', 'models/ingredients',
- 'models/tags','views/tagView', 'views/ingredientView', 'views/tagListView', 'views/ingredientsListView'],
-  function($, _, Backbone, DishView, Dish, DishListView, Dishes, 
-    Categories, CategoriesListView, Category, CategoryView, Menus, 
-    MenusListView, MenuView, Menu, Ingredient, Tag, Ingredients, Tags, 
-    TagView, IngredientView, TagsListView, IngredientsListView){
+define(['jquery','underscore','backbone','views/dishView','models/dish','views/dishListView', 
+  'models/dishes', 'models/categories','views/categoriesListView', 'models/category', 'views/categoryView',
+  'models/menus', 'views/menuListView', 'views/menuView', 'models/menu','models/ingredient','models/tag',
+  'models/ingredients', 'models/tags','views/tagView', 'views/ingredientView', 'views/tagListView',
+  'views/ingredientsListView', 'models/user','views/userView'],
+  function($, _, Backbone, DishView, Dish, DishListView, Dishes,
+    Categories, CategoriesListView, Category, CategoryView, Menus,
+    MenusListView, MenuView, Menu, Ingredient, Tag, Ingredients, Tags,
+    TagView, IngredientView, TagsListView, IngredientsListView, User, UserView) {
 
     
 
@@ -15,6 +16,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
      // Hash maps for routes
      routes : {
       "" : "index",
+      "login" : "logIn",
       "dishes" : "showDishes",
       "dishes/:id" : "showDishById",
       "newDish" : "showNewDish",
@@ -30,17 +32,25 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
       "ingredients" : "showIngredients",
       "ingredients/newIngredient" : "showNewIngredient",
       "ingredients/:id" : "showIngredientById",
-      "error" : "fourOfour"
+      "*error" : "fourOfour"
     },
 
-    initialize: function(){
+    initialize: function() {
       //SET ALL LISTS MODELS,ETC.
     },
 
-    index: function(){
+    index: function() {
       console.log("index called");
       $('.nav li').removeClass('active');
       $('#home-link').addClass('active');
+    },
+
+    logIn: function() {
+      $('#left_menu').empty();
+      var user = new User();
+      var userView = new UserView({model: user});
+      userView.render();
+      $('#content').html(userView.el);
     },
 
     showTags: function() {
@@ -75,55 +85,55 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
   },
 
   showIngredients: function() {
-      $('#content').empty();
-      $('.nav li').removeClass('active');
-      $('#ingredients-link').addClass('active');
-      var ingredients = new Ingredients();
-      var ingredientsListView = new IngredientsListView({collection: ingredients});
-      ingredients.fetch();
-    },
-
-    showNewIngredient: function() {
-     $('.nav li').removeClass('active');
-     $('#ingredients-link').addClass('active');
-     var ingredient = new Ingredient();
-     var ingredientView = new IngredientView({model: ingredient});
-     ingredientView.render();
-     $('#content').html(ingredientView.el);
-   },
-
-   showIngredientById: function(id) {
-    $('.nav li').removeClass('active');
-    $('#ingredient-link').addClass('active');
-    var ingredient = new Ingredient({_id : id});
-    var ingredientView = new IngredientView({model: ingredient});
-    ingredient.fetch({
-      success: function () {
-        ingredientView.render();
-        $('#content').html(ingredientView.el);
-      }
-    });
-  },
-
-  showMenus: function() {
     $('#content').empty();
     $('.nav li').removeClass('active');
-    $('#menu-link').addClass('active');
-    var menus = new Menus();
-    var menusListView = new MenusListView({collection: menus});
-    menus.fetch();
+    $('#ingredients-link').addClass('active');
+    var ingredients = new Ingredients();
+    var ingredientsListView = new IngredientsListView({collection: ingredients});
+    ingredients.fetch();
   },
 
-  showNewMenu: function() {
+  showNewIngredient: function() {
    $('.nav li').removeClass('active');
-   $('#menu-link').addClass('active');
-   var menu = new Menu();
-   var menuView = new MenuView({model: menu});
-   menuView.render();
-   $('#content').html(menuView.el);
+   $('#ingredients-link').addClass('active');
+   var ingredient = new Ingredient();
+   var ingredientView = new IngredientView({model: ingredient});
+   ingredientView.render();
+   $('#content').html(ingredientView.el);
  },
 
- showMenuById: function(id) {
+ showIngredientById: function(id) {
+  $('.nav li').removeClass('active');
+  $('#ingredient-link').addClass('active');
+  var ingredient = new Ingredient({_id : id});
+  var ingredientView = new IngredientView({model: ingredient});
+  ingredient.fetch({
+    success: function () {
+      ingredientView.render();
+      $('#content').html(ingredientView.el);
+    }
+  });
+},
+
+showMenus: function() {
+  $('#content').empty();
+  $('.nav li').removeClass('active');
+  $('#menu-link').addClass('active');
+  var menus = new Menus();
+  var menusListView = new MenusListView({collection: menus});
+  menus.fetch();
+},
+
+showNewMenu: function() {
+ $('.nav li').removeClass('active');
+ $('#menu-link').addClass('active');
+ var menu = new Menu();
+ var menuView = new MenuView({model: menu});
+ menuView.render();
+ $('#content').html(menuView.el);
+},
+
+showMenuById: function(id) {
   $('.nav li').removeClass('active');
   $('#menu-link').addClass('active');
   var menu = new Menu({_id : id});
@@ -205,22 +215,13 @@ showDishes: function(){
   $('#dishes-link').addClass('active');
   var dishList = new Dishes();
   var dishListView = new DishListView({collection: dishList});
-  dishList.fetch({
-    success: function(){
-      console.log('exito');
-      console.log(dishList.toJSON());
-    },
-    error: function(){
-      console.log('failure');
-    }
-  });
-
+  dishList.fetch();
 },
 
 fourOfour: function(error) {
-         // 404 page
-       }
-     });
+  $('#content').html('page does not exists');
+}
+});
 
 return AppRouter;
 });
