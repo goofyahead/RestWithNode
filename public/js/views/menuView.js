@@ -1,8 +1,8 @@
 //category definition
-define(['backbone','text!templates/basicElement.html'], function (Backbone, categoryTemplate){
+define(['backbone','text!templates/menuView.html'], function (Backbone, myTemplate){
 	var CategoryView = Backbone.View.extend({
 
-		template: _.template(categoryTemplate),
+		template: _.template(myTemplate),
 
 		tagName: 'div',
 		id: 'menu',
@@ -14,7 +14,12 @@ define(['backbone','text!templates/basicElement.html'], function (Backbone, cate
 
 		events: {
 			'click #save-basic-changes' : 'save_basic',
-			'click #delete' : 'delete'
+			'click #delete' : 'delete',
+			'click #current-menu' : 'toggleMenu'
+		},
+
+		toggleMenu: function (event) {
+			this.model.toggleActive();
 		},
 
 		delete: function() {

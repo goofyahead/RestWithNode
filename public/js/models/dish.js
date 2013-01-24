@@ -20,7 +20,24 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 	        ingredients: [],
 	        menu: [],
 	        thumbnail: '',
-	        video: null
+	        video: null,
+	        demo: false,
+    	},
+
+    	toggleDemo: function () {
+    		if (this.get('demo') == false) {
+    			this.set({demo: true});
+    		} else {
+    			this.set({demo: false});
+    		}
+    		this.save({},{
+    			success: function() {
+					console.log('saved correctly');
+				},
+				error: function (model, response) {
+					console.log('error login' + response.responseText);
+				}
+			});
     	},
 
     	deleteMyself: function () {
@@ -48,12 +65,16 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 			this.set({description: vDescription});
 			this.set({price: vPrice});
 			this.save({},{
+				headers: {'Authorization' : sessionStorage.getItem('token')},
 				success: function() {
 					if (wasNew) {
 						eventDispatcher.trigger('app:dishCreated');
 						// navigate to the page of the newly added dish.
 						Backbone.history.navigate('/dishes/' + that.get('_id'));
 					}
+				},
+				error: function (model, response) {
+					console.log('error login' + response.responseText);
 				}
 			});
 		},

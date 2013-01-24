@@ -5,13 +5,13 @@ var BSON = require('mongodb').BSONPure;
 var MongoClient = require('mongodb').MongoClient;
 
 var db = new Db('kaprika', new Server("127.0.0.1", 27017,
- {auto_reconnect: false, poolSize: 4}), {w:0, native_parser: false});
+   {auto_reconnect: false, poolSize: 4}), {w:0, native_parser: false});
 
 // Establish connection to db
 db.open(function(err, db) {
   if(err) { 
     return console.dir(err);
-  } else {
+} else {
     //opens the database and the dishes collection
     db.createCollection('dishes', {safe:true}, function(err, collection) {
         if (err) {
@@ -19,8 +19,8 @@ db.open(function(err, db) {
         } else {
             console.log("Collection 'dishes' exists.");
         }
-        });
-    }
+    });
+}
 });
 
 exports.query = function (req, res){
@@ -32,20 +32,20 @@ exports.query = function (req, res){
     var temp = {};
     temp[type] = value;
     db.collection('dishes', function(err, collection) {
-            if (err){
-                console.log('not found');
-            } else {
-                collection.find(temp).toArray(function(err, items) {
-                    if(err) {
-                        console.log('not found');
-                        res.send('nothing found');
-                    } else {
-                        console.log(items);
-                        res.send(items);
-                    }
-                });
-            }
-        });
+        if (err){
+            console.log('not found');
+        } else {
+            collection.find(temp).toArray(function(err, items) {
+                if(err) {
+                    console.log('not found');
+                    res.send('nothing found');
+                } else {
+                    console.log(items);
+                    res.send(items);
+                }
+            });
+        }
+    });
 };
 
 exports.findById = function(req, res) {
@@ -76,7 +76,40 @@ exports.findById = function(req, res) {
     // }
 };
 
+exports.getCurrentMenu = function (req, res) {
+    db.collection('menus', function (err, collection) {
+        if (err){
+            console.log('error retrieving menus');
+        } else {
+            collection.findOne({'active' : true}, function (err, item) {
+                if (err) {
+
+                } else {
+                 var currentMenu = item.name;
+                 db.collection('dishes', function (err, dishCollection) {
+                    dishCollection.find({menu: currentMenu}).toArray(function(err, items) {
+                        if(err) {
+                            console.log('not found');
+                            res.send('nothing found');
+                        } else {
+                            console.log(items);
+                            res.send(items);
+                        }
+                    });
+                });
+             }
+         });
+        }
+    });
+},
+
 exports.updateDish = function(req, res) {
+    // var auth = req.headers.authorization;
+
+    // if (auth != 'ef4c914c591698b268db3c64163eafda7209a630f236ebf0eebf045460df723a'){
+    //     res.send(500, { error: 'something blew up' });
+    // }
+
     var id = req.params.id;
     var dish = req.body;
     console.log('Updating dish: ' + id);
@@ -101,7 +134,7 @@ exports.updateDish = function(req, res) {
         });
     });
 };
- 
+
 exports.findAll = function(req, res) {
     console.log('Retrieving all dishes:');
     db.collection('dishes', function(err, collection) {
@@ -126,7 +159,7 @@ exports.addDish = function(req, res) {
         });
     });
 };
- 
+
 exports.deleteDish = function(req, res) {
     var id = req.params.id;
     console.log('Deleting dish: ' + id);
@@ -136,7 +169,7 @@ exports.deleteDish = function(req, res) {
                 res.send({'error':'An error has occurred - ' + err});
             } else {
                 collection.update( {} ,{$pull: {recommendations: {_id: id}}}, {w:1, multi:true}, function (err, result) {
-                                console.log(result);
+                    console.log(result);
                 });
                 console.log('' + result + ' document(s) deleted');
                 res.send(req.body);
