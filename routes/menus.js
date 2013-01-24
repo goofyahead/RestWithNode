@@ -26,29 +26,29 @@ db.open(function(err, db) {
 });
 
 exports.findAll = function(req, res) {
-    console.log('login called on https' + req.params);
-    var userObjetc = req.body;
-    var user = userObjetc.userName;
-    var pass = userObjetc.password;
-    var shashum = crypto.createHash('sha256');
+    // console.log('login called on https' + req.params);
+    // var userObjetc = req.body;
+    // var user = userObjetc.userName;
+    // var pass = userObjetc.password;
+    // var shashum = crypto.createHash('sha256');
 
-    var content = user + ":" + pass;
-    console.log(content);
-    var cyphered = shashum.update(content).digest('hex');
+    // var content = user + ":" + pass;
+    // console.log(content);
+    // var cyphered = shashum.update(content).digest('hex');
 
-    console.log(cyphered);
+    // console.log(cyphered);
 
-    if (true) {
-        res.send(403, { error: 'something blew up' });
-    }
+    // if (true) {
+    //     res.send(403, { error: 'something blew up' });
+    // }
 
-    // console.log('Retrieving all menus:');
-    // db.collection('menus', function(err, collection) {
-    //     collection.find().toArray(function(err, items) {
-    //         console.log(items);
-    //         res.send(items);
-    //     });
-    // });
+    console.log('Retrieving all menus:');
+    db.collection('menus', function(err, collection) {
+        collection.find().toArray(function(err, items) {
+            console.log(items);
+            res.send(items);
+        });
+    });
 };
 
 exports.addMenu = function(req, res) {

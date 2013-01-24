@@ -76,13 +76,17 @@ exports.findById = function(req, res) {
     // }
 };
 
-exports.updateDish = function(req, res) {
-    var auth = req.headers.authorization;
+exports.getCurrentMenu = function (req, res) {
 
-    if (auth != 'ef4c914c591698b268db3c64163eafda7209a630f236ebf0eebf045460df723a'){
-        res.send(500, { error: 'something blew up' });
-    }
-    
+},
+
+exports.updateDish = function(req, res) {
+    // var auth = req.headers.authorization;
+
+    // if (auth != 'ef4c914c591698b268db3c64163eafda7209a630f236ebf0eebf045460df723a'){
+    //     res.send(500, { error: 'something blew up' });
+    // }
+
     var id = req.params.id;
     var dish = req.body;
     console.log('Updating dish: ' + id);

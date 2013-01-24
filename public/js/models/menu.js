@@ -10,6 +10,16 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 			_id: null,
 			name: "",
 			description: "",
+			active: false
+		},
+
+		toggleActive: function () {
+			if (this.get('active') == true) {
+				this.set({active: false});
+			} else {
+				this.set({active: true});
+			}
+			this.save();
 		},
 
 		initialize: function () {

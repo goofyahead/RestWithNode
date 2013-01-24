@@ -20,7 +20,24 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 	        ingredients: [],
 	        menu: [],
 	        thumbnail: '',
-	        video: null
+	        video: null,
+	        demo: false,
+    	},
+
+    	toggleDemo: function () {
+    		if (this.get('demo') == false) {
+    			this.set({demo: true});
+    		} else {
+    			this.set({demo: false});
+    		}
+    		this.save({},{
+    			success: function() {
+					console.log('saved correctly');
+				},
+				error: function (model, response) {
+					console.log('error login' + response.responseText);
+				}
+			});
     	},
 
     	deleteMyself: function () {

@@ -4,10 +4,10 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
   'models/menus', 'views/menuListView', 'views/menuView', 'models/menu','models/ingredient','models/tag',
   'models/ingredients', 'models/tags','views/tagView', 'views/ingredientView', 'views/tagListView',
   'views/ingredientsListView', 'models/user','views/userView'],
-  function($, _, Backbone, DishView, Dish, DishListView, Dishes, 
-    Categories, CategoriesListView, Category, CategoryView, Menus, 
-    MenusListView, MenuView, Menu, Ingredient, Tag, Ingredients, Tags, 
-    TagView, IngredientView, TagsListView, IngredientsListView, User, UserView){
+  function($, _, Backbone, DishView, Dish, DishListView, Dishes,
+    Categories, CategoriesListView, Category, CategoryView, Menus,
+    MenusListView, MenuView, Menu, Ingredient, Tag, Ingredients, Tags,
+    TagView, IngredientView, TagsListView, IngredientsListView, User, UserView) {
 
     
 
@@ -35,11 +35,11 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
       "*error" : "fourOfour"
     },
 
-    initialize: function(){
+    initialize: function() {
       //SET ALL LISTS MODELS,ETC.
     },
 
-    index: function(){
+    index: function() {
       console.log("index called");
       $('.nav li').removeClass('active');
       $('#home-link').addClass('active');

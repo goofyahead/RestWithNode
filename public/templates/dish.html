@@ -15,12 +15,6 @@
 		<div class="controls controls-row">
 			<textarea id='inputDescription' class="span4" rows="4" style="resize: none;"> <%= description %> </textarea>
 		</div>
-		<button id="save-basic-changes" class="btn btn-success"> Guardar </button>
-		<% if (_id != null) { %>
-		<button id="delete" class="btn btn-danger"> Borrar </button>
-		<% } else { %>
-		<button id="delete" class="btn btn-danger disabled"> Borrar </button>
-		<% } %>
 	</div>
 	<% if (_id === null) { %>
 	<% } else { %>
@@ -36,6 +30,19 @@
 		<img id='dropVideo' class="img-polaroid shrink-img" src=/videos/<%= thumbnail %> >
 		<% } else { %>
 		<img id='dropVideo' class="img-polaroid shrink-img" src=/images/upload-video.png >
+		<% } %>
+	</div>
+	<div class="span9">
+		<button id="save-basic-changes" class="btn btn-success"> Guardar </button>
+		<% if (_id != null) { %>
+		<button id="delete" class="btn btn-danger"> Borrar </button>
+		<% } else { %>
+		<button id="delete" class="btn btn-danger disabled"> Borrar </button>
+		<% } %>
+		<% if (demo == true) { %>
+			<button id="demo" class="btn btn-warning pull-right"> Show in Demo </button>
+		<% } else { %>
+			<button id="demo" class="btn btn-inverse pull-right"> Show in Demo </button>
 		<% } %>
 	</div>
 </div>

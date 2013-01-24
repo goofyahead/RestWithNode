@@ -1,7 +1,7 @@
 
 define(['backbone'], function(Backbone){
 	
-	var CollectionErrorHandler = Backbone.Collection.extend({
+	var ModelErrorHanlder = Backbone.Model.extend({
 	
 		initialize: function () {
 			this.on("error", this.errorHandler);
@@ -15,5 +15,5 @@ define(['backbone'], function(Backbone){
 		},
 	});
 
-	return CollectionErrorHandler;
+	return ModelErrorHanlder;
 });

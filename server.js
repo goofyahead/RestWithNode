@@ -26,6 +26,8 @@ app.configure(function(){
 	app.use('/videos', express.static(__dirname + '/public/videos'));
 });
 
+app.get('/api/currentmenu', dishes.getCurrentMenu);
+
 secureApp.configure(function(){
 	secureApp.use(express.static(__dirname + '/public'));
 	secureApp.use(express.bodyParser());
