@@ -215,16 +215,7 @@ showDishes: function(){
   $('#dishes-link').addClass('active');
   var dishList = new Dishes();
   var dishListView = new DishListView({collection: dishList});
-  dishList.fetch({
-    success: function(){
-      console.log('exito');
-      console.log(dishList.toJSON());
-    },
-    error: function(){
-      console.log('failure');
-    }
-  });
-
+  dishList.fetch();
 },
 
 fourOfour: function(error) {

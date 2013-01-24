@@ -6,6 +6,7 @@ var dishes = require('./routes/dishes');
 var categories = require('./routes/categories');
 var menus = require('./routes/menus');
 var ingredients = require('./routes/ingredients');
+var validation = require('./routes/validation.js');
 var tags = require('./routes/tags');
 var files = require('./routes/files');
 var logOn = require('./routes/logon');
@@ -43,10 +44,10 @@ secureApp.get('/api/login', logOn.hello);
 // });
 
 //GET REQUESTS
-secureApp.get('/api/dishes', dishes.findAll);
-secureApp.get('/api/dishes/:id', dishes.findById);
+secureApp.get('/api/dishes', validation.validate, dishes.findAll);
+secureApp.get('/api/dishes/:id', validation.validate, dishes.findById);
 secureApp.get('/api/dishes/search/:query?', dishes.query);
-secureApp.get('/api/menus', menus.findAll);
+secureApp.get('/api/menus', validation.validate, menus.findAll);
 secureApp.get('/api/menus/:id', menus.findById);
 secureApp.get('/api/tags', tags.findAll);
 secureApp.get('/api/tags/:id', tags.findById);

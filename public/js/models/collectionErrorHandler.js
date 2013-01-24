@@ -1,6 +1,6 @@
 
 define(['backbone'], function(Backbone){
-	
+
 	var CollectionErrorHandler = Backbone.Collection.extend({
 	
 		initialize: function () {
@@ -8,7 +8,7 @@ define(['backbone'], function(Backbone){
 		},
 
 		errorHandler: function (model, error) {
-			if (error.status == 403) {
+			if (error.status == 401) {
 				console.log('unauthorized for this resource.');
 				Backbone.history.navigate('/login', true);
 			}
