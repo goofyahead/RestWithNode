@@ -14,7 +14,7 @@ var https = require('https');
 var http = require('http');
 var fs = require('fs');
 var HTTP_PORT= 3000;
-var HTTPS_PORT = process.env.PORT || 5000;;
+var HTTPS_PORT = 8443;
 
 var options = {
   key: fs.readFileSync('./manageat-key.pem'),
@@ -79,5 +79,5 @@ secureApp.delete('/api/ingredients/:id', ingredients.deleteIngredient);
 secureApp.delete('/api/tags/:id', tags.deleteTag);
 
 https.createServer(options, secureApp).listen(HTTPS_PORT);
-// app.listen(HTTP_PORT);
-console.log('Listening on port 3000...');
+app.listen(HTTP_PORT);
+console.log('Listening on port 3000 and on 8443...');
