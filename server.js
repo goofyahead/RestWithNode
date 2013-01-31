@@ -13,8 +13,8 @@ var logOn = require('./routes/logon');
 var https = require('https');
 var http = require('http');
 var fs = require('fs');
-var HTTP_PORT= 3000;
-var HTTPS_PORT = 8443;
+var HTTP_PORT= 80;
+var HTTPS_PORT = 443;
 
 var options = {
   key: fs.readFileSync('./manageat-key.pem'),
