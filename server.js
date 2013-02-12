@@ -13,7 +13,7 @@ var logOn = require('./routes/logon');
 var https = require('https');
 var http = require('http');
 var fs = require('fs');
-var HTTP_PORT= 8080;
+var HTTP_PORT= 80;
 var HTTPS_PORT = 4433;
 var HTTP_PORT_2 = 8081;
 
@@ -22,17 +22,20 @@ var options = {
   cert: fs.readFileSync('./manageat-cert.pem')
 };
 
-app.configure(function(){
-	app.use(express.bodyParser());
-	app.use('/images', express.static(__dirname + '/public/images'));
-	app.use('/videos', express.static(__dirname + '/public/videos'));
-});
+// app.configure(function(){
+// 	app.use(express.bodyParser());
+// 	app.use('/images', express.static(__dirname + '/public/images'));
+// 	app.use('/videos', express.static(__dirname + '/public/videos'));
+// });
 
 //API to get the current menu
-app.get('/api/currentmenu', dishes.getCurrentMenu);
+// app.get('/api/currentmenu', dishes.getCurrentMenu);
+secureApp.get('/api/currentmenu', dishes.getCurrentMenu);
 
 secureApp.configure(function(){
 	secureApp.use(express.static(__dirname + '/public'));
+	app.use('/images', express.static(__dirname + '/public/images'));
+	app.use('/videos', express.static(__dirname + '/public/videos'));
 	secureApp.use(express.bodyParser());
 });
 
@@ -75,6 +78,6 @@ secureApp.delete('/api/ingredients/:id', validation.validate, ingredients.delete
 secureApp.delete('/api/tags/:id', validation.validate, tags.deleteTag);
 
 // https.createServer(options, secureApp).listen(HTTPS_PORT);
+// secureApp.listen(HTTP_PORT);
 secureApp.listen(HTTP_PORT);
-app.listen(HTTP_PORT_2);
 console.log('Listening on port 3000 and on 8443...');
