@@ -173,9 +173,6 @@ showCategoryById: function(id) {
   success : function() {
     categoryView.render();
     $('#content').html(categoryView.el);
-  },
-  error: function() {
-
   }
 });
 },
@@ -201,10 +198,6 @@ showDishById: function(id){
       dishView.render();
       $('#content').html(dishView.el);
       console.log("rendering");
-    },
-    error: function(){
-      console.log('error retrieving data');
-      $('#content').html('<h1>ERROR AUTH</h1>');
     }
   });
 },

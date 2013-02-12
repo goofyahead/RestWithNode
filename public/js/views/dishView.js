@@ -56,6 +56,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		    xhr.addEventListener('load', uploadComplete, false);
 		    xhr.addEventListener('progress', uploadProgress, false);
 		    xhr.open('POST', '/api/video-upload');
+		    xhr.setRequestHeader( 'Authorization' , sessionStorage.getItem('token') );
 		    xhr.send(fd);
 
 		    function uploadProgress(evt) {
@@ -113,6 +114,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		},
 
 		dragover: function (event) {
+			console.log('dragOver');
 			event.preventDefault();
 		},
 

@@ -1,8 +1,9 @@
 // category menu
 
-define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
+define(['backbone','eventDispatcher','models/modelErrorHandler'], 
+	function(Backbone, eventDispatcher, ModelErrorHandler){
 
-	var Ingredient = Backbone.Model.extend({
+	var Ingredient = ModelErrorHandler.extend({
 		idAttribute: "_id",
 		urlRoot: '/api/ingredients',
 

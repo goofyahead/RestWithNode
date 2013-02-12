@@ -11,19 +11,19 @@ var db = new Db('kaprika', new Server("127.0.0.1", 27017,
 db.open(function(err, db) {
   if(err) { 
     return console.dir(err);
-} else {
-    //opens the database and the dishes collection
-    db.createCollection('dishes', {safe:true}, function(err, collection) {
-        if (err) {
-            console.log("The 'dishes' collection doesn't exist. Creating it with sample data...");
-        } else {
-            console.log("Collection 'dishes' exists.");
-        }
-    });
-}
+    } else {
+        //opens the database and the dishes collection
+        db.createCollection('dishes', {safe:true}, function(err, collection) {
+            if (err) {
+                console.log("The 'dishes' collection doesn't exist. Creating it with sample data...");
+            } else {
+                console.log("Collection 'dishes' exists.");
+            }
+        });
+    }
 });
 
-exports.query = function (req, res){
+exports.query = function (req, res) {
     console.log('query captured');
     console.log(req.query);
     var type = req.query.type;
@@ -31,6 +31,7 @@ exports.query = function (req, res){
     console.log(type + " : " + value);
     var temp = {};
     temp[type] = value;
+    
     db.collection('dishes', function(err, collection) {
         if (err){
             console.log('not found');
@@ -104,12 +105,6 @@ exports.getCurrentMenu = function (req, res) {
 },
 
 exports.updateDish = function(req, res) {
-    // var auth = req.headers.authorization;
-
-    // if (auth != 'ef4c914c591698b268db3c64163eafda7209a630f236ebf0eebf045460df723a'){
-    //     res.send(500, { error: 'something blew up' });
-    // }
-
     var id = req.params.id;
     var dish = req.body;
     console.log('Updating dish: ' + id);

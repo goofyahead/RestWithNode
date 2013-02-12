@@ -1,14 +1,11 @@
 //categories
-define(['backbone', 'underscore', 'jquery','models/category'], function(Backbone, _, $, Category){
+define(['backbone', 'underscore', 'jquery','models/category', 'models/collectionErrorHandler'],
+ function(Backbone, _, $, Category, CollectionErrorHandler){
 
-	var Categories = Backbone.Collection.extend({
+	var Categories = CollectionErrorHandler.extend({
 
 		model: Category,
 		url: 'api/categories',
-
-		initialize: function(){
-			console.log('initializing category');
-		}
 	});
 
 	return Categories;

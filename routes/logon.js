@@ -15,7 +15,7 @@ db.open(function(err, db) {
 		return console.dir(err);
 	} else {
     //opens the database and the dishes collection
-}
+	}
 });
 
 exports.hello = function(req, res) {
@@ -34,6 +34,7 @@ exports.createAccount = function (req, res) {
 },
 
 exports.logIn = function (req, res) {
+
 	console.log('login called on https' + req.params);
 	var userObjetc = req.body;
 	var user = userObjetc.userName;
@@ -42,10 +43,10 @@ exports.logIn = function (req, res) {
 
 	var content = user + ":" + pass;
 	console.log(content);
+	
 	var cyphered = shashum.update(content).digest('hex');
 
 	console.log(cyphered);
-
 
 	db.collection('users', function(err, collection) {
         if (err){

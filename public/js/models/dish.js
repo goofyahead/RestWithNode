@@ -1,8 +1,8 @@
 //Model representing the dish state.
 
-define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
+define(['backbone','eventDispatcher','models/modelErrorHandler'], function(Backbone, eventDispatcher, ModelErrorHanlder){
 	
-	var Dish = Backbone.Model.extend({
+	var Dish = ModelErrorHanlder.extend({
 
 		urlRoot: '/api/dishes',
 		
@@ -19,7 +19,6 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 	        tags: [],
 	        ingredients: [],
 	        menu: [],
-	        thumbnail: '',
 	        video: null,
 	        demo: false,
     	},
@@ -47,11 +46,11 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 
    		updateVideo: function ( mVideo, mThumbnail ){
    			this.set({video: mVideo});
-   			this.set({thumbnail: mThumbnail});
+   			this.set({picture: mThumbnail});
    			this.save();
    		},
 
-		updateFields: function ( what, updates  ){
+		updateFields: function ( what, updates ){
 			console.log('updating model ' + what + ' with: ' + updates);
 			this.set(what, updates);
 			this.save();
@@ -65,16 +64,12 @@ define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
 			this.set({description: vDescription});
 			this.set({price: vPrice});
 			this.save({},{
-				headers: {'Authorization' : sessionStorage.getItem('token')},
 				success: function() {
 					if (wasNew) {
 						eventDispatcher.trigger('app:dishCreated');
 						// navigate to the page of the newly added dish.
 						Backbone.history.navigate('/dishes/' + that.get('_id'));
 					}
-				},
-				error: function (model, response) {
-					console.log('error login' + response.responseText);
 				}
 			});
 		},
