@@ -22,22 +22,24 @@ var options = {
   cert: fs.readFileSync('./manageat-cert.pem')
 };
 
-// app.configure(function(){
-// 	app.use(express.bodyParser());
-// 	app.use('/images', express.static(__dirname + '/public/images'));
-// 	app.use('/videos', express.static(__dirname + '/public/videos'));
-// });
+app.configure(function(){
+	app.use(express.bodyParser());
+	app.use('/images', express.static(__dirname + '/public/images'));
+	app.use('/videos', express.static(__dirname + '/public/videos'));
+});
 
 //API to get the current menu
 // app.get('/api/currentmenu', dishes.getCurrentMenu);
-secureApp.get('/api/currentmenu', dishes.getCurrentMenu);
 
 secureApp.configure(function(){
 	secureApp.use(express.static(__dirname + '/public'));
-	app.use('/images', express.static(__dirname + '/public/images'));
-	app.use('/videos', express.static(__dirname + '/public/videos'));
+	secureApp.use('/images', express.static(__dirname + '/public/images'));
+	secureApp.use('/videos', express.static(__dirname + '/public/videos'));
 	secureApp.use(express.bodyParser());
 });
+
+//WHILE NOT SSL CERT DEPLOYED
+secureApp.get('/api/currentmenu', dishes.getCurrentMenu);
 
 //GET REQUESTS
 secureApp.get('/api/dishes', validation.validate, dishes.findAll);
@@ -77,6 +79,6 @@ secureApp.delete('/api/ingredients/:id', validation.validate, ingredients.delete
 secureApp.delete('/api/tags/:id', validation.validate, tags.deleteTag);
 
 // https.createServer(options, secureApp).listen(HTTPS_PORT);
-// secureApp.listen(HTTP_PORT);
+// app.listen(HTTP_PORT);
 secureApp.listen(HTTP_PORT);
-console.log('Listening on port 3000 and on 8443...');
+console.log('Listening http on port ' + HTTP_PORT +'and htpps on ' + HTTPS_PORT);
