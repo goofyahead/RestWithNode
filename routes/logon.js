@@ -22,11 +22,11 @@ exports.hello = function(req, res) {
 	res.send('hellooooo');
 },
 
-exports.redirect = function (req, res) {
-	console.log('redirecting');
-	var hostName = req.headers.host.split(':')[0];
-	res.redirect("https://" + hostName + ':8443' + req.url);
-},
+// exports.redirect = function (req, res) {
+// 	console.log('redirecting');
+// 	var hostName = req.headers.host.split(':')[0];
+// 	res.redirect("https://" + hostName + ':8443' + req.url);
+// },
 
 exports.createAccount = function (req, res) {
 	var user = req.params.userName;
@@ -36,6 +36,7 @@ exports.createAccount = function (req, res) {
 exports.logIn = function (req, res) {
 
 	console.log('login called on https' + req.params);
+	console.log(req.body);
 	var userObjetc = req.body;
 	var user = userObjetc.userName;
 	var pass = userObjetc.password;

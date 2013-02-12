@@ -40,7 +40,6 @@ secureApp.configure(function(){
 });
 
 //GET REQUESTS
-secureApp.get('/api/login', logOn.hello);
 secureApp.get('/api/dishes', validation.validate, dishes.findAll);
 secureApp.get('/api/dishes/:id', validation.validate, dishes.findById);
 secureApp.get('/api/dishes/search/:query?', validation.validate, dishes.query);
