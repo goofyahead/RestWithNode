@@ -1,4 +1,5 @@
 var fs = require('fs');
+var util = require('util');
 
 exports.uploadPhoto = function(req, res) {
     console.log('Uploading file');
@@ -23,13 +24,24 @@ exports.uploadVideo = function(req, res) {
     var target_path = './public/videos/' + fileName;
     var extern_path = __dirname + '/../public/videos/' + fileName;
 
-    fs.rename(tmp_path, target_path, function (err){
-        if (err) throw err;
+    var is = fs.createReadStream(tmp_path)
+    var os = fs.createWriteStream(target_path);
+
+    util.pump(is, os, function() {
+        fs.unlinkSync(tmp_path);
         res.contentType('json');
         var thumbnailFile = 'thumbnail' + fileNameWirhoutExt + '.jpg';
         res.send(JSON.stringify({ name: fileName, thumbnail: thumbnailFile}));
         createThumbnail(target_path, '640x480', __dirname + '/../public/images/thumbnail' + fileNameWirhoutExt + '.jpg');
-    }); 
+    });
+
+    // fs.rename(tmp_path, target_path, function (err){
+    //     if (err) throw err;
+    //     res.contentType('json');
+    //     var thumbnailFile = 'thumbnail' + fileNameWirhoutExt + '.jpg';
+    //     res.send(JSON.stringify({ name: fileName, thumbnail: thumbnailFile}));
+    //     createThumbnail(target_path, '640x480', __dirname + '/../public/images/thumbnail' + fileNameWirhoutExt + '.jpg');
+    // }); 
 }
 
 function createThumbnail (origin, size, filename) {
