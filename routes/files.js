@@ -19,7 +19,7 @@ exports.uploadVideo = function(req, res) {
     var fileName = req.files.uploadingVideo.name.split(' ').join('_');
     var fileNameWirhoutExt = fileName.split('.')[0];
     console.log(fileNameWirhoutExt);
-    var tmp_path = req.files.uploadingVideo.path;
+    var tmp_path = './' + req.files.uploadingVideo.path;
     var target_path = './public/videos/' + fileName;
     var extern_path = __dirname + '/../public/videos/' + fileName;
 
