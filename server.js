@@ -35,7 +35,9 @@ secureApp.configure(function(){
 	secureApp.use(express.static(__dirname + '/public'));
 	secureApp.use('/images', express.static(__dirname + '/public/images'));
 	secureApp.use('/videos', express.static(__dirname + '/public/videos'));
-	secureApp.use(express.bodyParser());
+	secureApp.use(express.bodyParser({
+		uploadDir: './myTemp'
+	}));
 });
 
 //WHILE NOT SSL CERT DEPLOYED
@@ -81,4 +83,4 @@ secureApp.delete('/api/tags/:id', validation.validate, tags.deleteTag);
 // https.createServer(options, secureApp).listen(HTTPS_PORT);
 // app.listen(HTTP_PORT);
 secureApp.listen(HTTP_PORT);
-console.log('Listening http on port ' + HTTP_PORT +'and htpps on ' + HTTPS_PORT);
+console.log('Listening http on port ' + HTTP_PORT +' and htpps on ' + HTTPS_PORT);
