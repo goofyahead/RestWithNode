@@ -1,8 +1,9 @@
 // category model
 
-define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
+define(['backbone','eventDispatcher','models/modelErrorHandler'], 
+	function(Backbone, eventDispatcher, ModelErrorHandler){
 
-	var Category = Backbone.Model.extend({
+	var Category = ModelErrorHandler.extend({
 		idAttribute: "_id",
 		urlRoot: '/api/categories',
 

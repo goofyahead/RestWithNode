@@ -1,8 +1,8 @@
 // category menu
 
-define(['backbone','eventDispatcher'], function(Backbone, eventDispatcher){
+define(['backbone','eventDispatcher','models/modelErrorHandler'], function(Backbone, eventDispatcher, ModelErrorHandler){
 
-	var Tag = Backbone.Model.extend({
+	var Tag = ModelErrorHandler.extend({
 		idAttribute: "_id",
 		urlRoot: '/api/tags',
 

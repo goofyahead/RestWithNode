@@ -15,8 +15,6 @@ exports.uploadPhoto = function(req, res) {
 };
 
 exports.uploadVideo = function(req, res) {
-
-
     console.log('uploading video0');
     var fileName = req.files.uploadingVideo.name.split(' ').join('_');
     var fileNameWirhoutExt = fileName.split('.')[0];
@@ -25,16 +23,12 @@ exports.uploadVideo = function(req, res) {
     var target_path = './public/videos/' + fileName;
     var extern_path = __dirname + '/../public/videos/' + fileName;
 
-    
-
     fs.rename(tmp_path, target_path, function (err){
         if (err) throw err;
         res.contentType('json');
         var thumbnailFile = 'thumbnail' + fileNameWirhoutExt + '.jpg';
-
-        res.send(JSON.stringify({ name: fileName, thumbnail: thumbnailFile} ));   
-
-        createThumbnail(target_path, '640x480', __dirname + '/../public/videos/thumbnail' + fileNameWirhoutExt + '.jpg');
+        res.send(JSON.stringify({ name: fileName, thumbnail: thumbnailFile}));
+        createThumbnail(target_path, '640x480', __dirname + '/../public/images/thumbnail' + fileNameWirhoutExt + '.jpg');
     }); 
 }
 

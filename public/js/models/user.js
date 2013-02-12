@@ -1,6 +1,6 @@
 
 define(['backbone','models/modelErrorHandler'], function (Backbone, ModelErrorHandler) {
-	var User = ModelErrorHandler.extend({
+	var User = Backbone.Model.extend({
 
 		defaults: {
 			userName : '',
@@ -17,9 +17,11 @@ define(['backbone','models/modelErrorHandler'], function (Backbone, ModelErrorHa
 			this.set({password: pass});
 			this.save({},{
 				success: function() {
-					// save token that will be on this element'0?????
 					console.log(that.toJSON());
 					sessionStorage.setItem('token',that.get('token'));
+				},
+				error: function() {
+					sessionStorage.setItem('token','none');
 				}
 			});
 		}
