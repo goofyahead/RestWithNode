@@ -1,8 +1,9 @@
 // category menu
 
-define(['backbone','models/ingredient'], function(Backbone, Ingredient){
+define(['backbone','models/ingredient', 'models/collectionErrorHandler'],
+ function(Backbone, Ingredient, CollectionErrorHandler){
 
-	var Ingredients = Backbone.Collection.extend({
+	var Ingredients = CollectionErrorHandler.extend({
 		url: '/api/ingredients',
 		model: Ingredient
 	});
