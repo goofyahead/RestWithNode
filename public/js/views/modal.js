@@ -11,9 +11,14 @@ define(['backbone', 'text!templates/modal.html'], function(Backbone, template){
 		id: 'modal',
 
 		initialize: function(){
+			this.selection = [];
 			console.log("initializing ++++++++++++++++++++++++++++");
 			console.log(this.options.having.get(this.options.what));
-			this.selection = this.options.having.get(this.options.what);
+			this.options.having.get(this.options.what).forEach(this.addToSelection, this);
+		},
+
+		addToSelection: function (relation) {
+			this.selection.push(relation.name);
 		},
 
 		events: {
@@ -55,7 +60,7 @@ define(['backbone', 'text!templates/modal.html'], function(Backbone, template){
 			console.log(this.options.having);
 			var compiledTemplate = this.template({
             	myCategos: this.collection.toJSON(),
-            	myHaving: this.options.having.get(this.options.what)
+            	myHaving: this.selection
         	});
 			this.$el.html(compiledTemplate);
 			return this;
