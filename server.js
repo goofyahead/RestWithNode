@@ -42,18 +42,20 @@ secureApp.configure(function(){
 
 //WHILE NOT SSL CERT DEPLOYED
 secureApp.get('/api/currentmenu', dishes.getCurrentMenu);
+secureApp.get('/api/tags', tags.findAll);
+secureApp.get('/api/menus', menus.findAll);
+secureApp.get('/api/ingredients', ingredients.findAll);
+secureApp.get('/api/categories', categories.findAll);
+//A public API can be specified for get categories etc, that will hide the ones
+//not in current selection.
 
 //GET REQUESTS
 secureApp.get('/api/dishes', validation.validate, dishes.findAll);
 secureApp.get('/api/dishes/:id', validation.validate, dishes.findById);
 secureApp.get('/api/dishes/search/:query?', validation.validate, dishes.query);
-secureApp.get('/api/menus', validation.validate, menus.findAll);
 secureApp.get('/api/menus/:id', validation.validate, menus.findById);
-secureApp.get('/api/tags', validation.validate, tags.findAll);
 secureApp.get('/api/tags/:id', validation.validate, tags.findById);
-secureApp.get('/api/ingredients', validation.validate, ingredients.findAll);
 secureApp.get('/api/ingredients/:id', validation.validate, ingredients.findById);
-secureApp.get('/api/categories', validation.validate, categories.findAll);
 secureApp.get('/api/categories/:id', validation.validate, categories.findById);
 
 //PUT REQUEST

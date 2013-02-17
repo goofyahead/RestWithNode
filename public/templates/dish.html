@@ -51,7 +51,7 @@
 			<li class="nav-header" id='left_list_header'>Menus</li>
 			<% console.log(categories); %>
 			<% _.each(menu, function(menuElement){ console.log(menuElement); %>
-			<li><a href="#"> <%= menuElement %> </a> </li>
+			<li><a href="#"> <%= menuElement.name %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
@@ -62,7 +62,7 @@
 			<li class="nav-header" id='left_list_header'>Categorias</li>
 			<% console.log(categories); %>
 			<% _.each(categories, function(dishElement){ console.log(dishElement); %>
-			<li><a href="#"> <%= dishElement %> </a> </li>
+			<li><a href="#"> <%= dishElement.name %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
@@ -85,7 +85,7 @@
 			<li class="nav-header" id='left_list_header'>Tags</li>
 			<% console.log(categories); %>
 			<% _.each(tags, function(tagElement){ console.log(tagElement); %>
-			<li><a href="#"> <%= tagElement %> </a> </li>
+			<li><a href="#"> <%= tagElement.name %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>
@@ -96,7 +96,7 @@
 			<li class="nav-header" id='left_list_header'>Ingredientes</li>
 			<% console.log(categories); %>
 			<% _.each(ingredients, function(ingredientElement){ console.log(ingredientElement); %>
-			<li><a href="#"> <%= ingredientElement %> </a> </li>
+			<li><a href="#"> <%= ingredientElement.name %> </a> </li>
 			<% }); %>
 			<li class="newItem"><a href="#">Editar <i class="icon-plus pull-right"></i></a> </li>
 		</ul>

@@ -36,8 +36,19 @@ define(['backbone', 'text!templates/modal.html'], function(Backbone, template){
 				console.log('afer removing ' + this.selection);
 			} else {
 				$(ev.currentTarget).addClass("btn-primary");
-				this.selection.push($(ev.currentTarget).text().trim());
+				//this should add the id and the name in an object {}
+				this.setObjectSelection($(ev.currentTarget).text().trim());
 			}
+		},
+
+		setObjectSelection: function (dishSelected) {
+			var currentElement = {};
+			currentElement.name = dishSelected;
+			var result = $.grep(this.collection.models, function(e){ 
+				return e.get('name') == dishSelected;
+			});
+			currentElement._id = result[0].get('_id');
+			this.selection.push(currentElement);
 		},
 
 		render: function(){
