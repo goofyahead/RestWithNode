@@ -88,7 +88,7 @@ exports.getCurrentMenu = function (req, res) {
                 } else {
                  var currentMenu = item.name;
                  db.collection('dishes', function (err, dishCollection) {
-                    dishCollection.find({menu: currentMenu}).toArray(function(err, items) {
+                    dishCollection.find({"menu.name": currentMenu}).toArray(function(err, items) {
                         if(err) {
                             console.log('not found');
                             res.send('nothing found');
