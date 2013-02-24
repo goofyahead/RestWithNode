@@ -74,6 +74,7 @@ secureApp.post('/api/tags', validation.validate, tags.addTag);
 secureApp.post('/api/ingredients', validation.validate, ingredients.addIngredient);
 secureApp.post('/api/file-upload', files.uploadPhoto);
 secureApp.post('/api/video-upload', validation.validate, files.uploadVideo);
+secureApp.post('/api/clear-files', files.clearImagelist); //SECUROTY HOLE!! ADD CREDENTIALS TO THIS REQ
 
 //DELETE REQUEST
 secureApp.delete('/api/dishes/:id', validation.validate, dishes.deleteDish);
