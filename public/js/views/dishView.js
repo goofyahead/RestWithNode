@@ -1,9 +1,9 @@
 // View definition importing its html for rendering
 
 define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap','models/categories',
-	'models/menus','models/tags','models/ingredients','models/dishes','views/modal_relations'],
+	'models/menus','models/tags','models/ingredients','models/dishes','views/modal_relations','views/modalPictureSelect'],
 	function(Backbone, $, dish, ModalView, bootstrap, Categories,
-	 Menus, Tags, Ingredients, Dishes, ModalRelations) {
+	 Menus, Tags, Ingredients, Dishes, ModalRelations, ModalPicture) {
 	var DishView = Backbone.View.extend({
 		template: _.template(dish),
 
@@ -30,9 +30,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			'click #delete' : 'delete_dish',
 			'click #save-basic-changes': 'save_basic',
 			'click #demo' : 'toggleDemo',
-			'drop #dropPicture' : 'dropPhoto',
 			'drop #dropVideo' : 'dropVideo',
-			'dragover #dropPicture' : 'dragover',
 			'dragover #dropVideo' : 'dragover'
 		},
 
@@ -45,7 +43,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 			console.log('drop received');
 			event.stopPropagation();
 
-
+			$('.progress').removeClass('hide');
 	        var e = event.originalEvent;
 	        this.videoFile = e.dataTransfer.files[0];
 
@@ -60,56 +58,29 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		    xhr.send(fd);
 
 		    function uploadProgress(evt) {
+
 		    	if (evt.lengthComputable) {
 	   				var percentComplete = evt.loaded / evt.total;
-	   				console.log(' percentable ' + percentComplete);
+	   				console.log(' porcentaje: ' + percentComplete);
+	   				$('.bar').text( percentComplete + "%");
+	   			} else {
+	   				console.log(' no computable ');
 	   			}
 		    }
 
 		    function uploadComplete(evt) {
+		    	console.log('upload done');
+		    	$('.progress').addClass('hide');
 				var responseUpload = JSON.parse(evt.target.response);
 				console.log(responseUpload);
-				thisView.model.updateVideo(responseUpload.name, responseUpload.thumbnail);
-			}
-		},
-
-		dropPhoto: function(event) {
-			event.preventDefault();
-			console.log('drop received');
-			event.stopPropagation();
-
-
-	        var e = event.originalEvent;
-	        e.dataTransfer.dropEffect = 'copy';
-	        this.pictureFile = e.dataTransfer.files[0];
-
-	        // Read the image file from the local file system and display it in the img tag
-	        var reader = new FileReader();
-	        reader.onloadend = function () {
-	            $('#dropPicture').attr('src', reader.result);
-	        };
-	        reader.readAsDataURL(this.pictureFile);
-
-	        var thisView = this;
-	        var fd = new FormData();
-		    fd.append('uploadingFile', this.pictureFile);
-		    var xhr = new XMLHttpRequest();
-		    xhr.addEventListener('load', uploadComplete, false);
-		    xhr.addEventListener('progress', uploadProgress, false);
-		    xhr.open('POST', '/api/file-upload');
-		    xhr.send(fd);
-
-		    function uploadProgress(evt) {
-		    	if (evt.lengthComputable) {
-	   				var percentComplete = evt.loaded / evt.total;
-	   				console.log(percentComplete);
-	   			}
-		    }
-
-		    function uploadComplete(evt) {
-				console.log(evt);
-				var responseUpload = JSON.parse(evt.target.response);
-				thisView.model.updatePicture(responseUpload.name);
+				var modalPicture = new ModalPicture({
+					pictures: responseUpload,
+					model: thisView.model
+				});
+				modalPicture.render();
+				$('#modalplacer').html(modalPicture.el);
+				$('#myModal').modal();
+				thisView.model.updateVideo(responseUpload.name);
 			}
 		},
 

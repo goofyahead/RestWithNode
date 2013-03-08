@@ -19,6 +19,9 @@
 	<% if (_id === null) { %>
 	<% } else { %>
 	<div class="span3">
+		<div class="progress progress-striped active hide">
+  			<div class="bar" style="width: 10%;"></div>
+		</div>
 		<% if (picture != null) { %>
 		<img id='dropVideo' class="img-polaroid shrink-img" src=/images/<%= picture %> >
 		<% } else { %>

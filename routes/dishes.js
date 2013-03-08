@@ -111,6 +111,7 @@ exports.updateDish = function(req, res) {
     console.log(dish);
     delete dish._id;
     delete dish.id;
+    
     try{
         var obj_id = BSON.ObjectID.createFromHexString(id);
     }catch (err){
