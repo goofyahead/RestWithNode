@@ -17,7 +17,6 @@ exports.uploadPhoto = function(req, res) {
 
 exports.uploadVideo = function(req, res) {
     var childProcess = require('child_process'),ffmpeg;
-
     console.log('uploading video0');
     var fileName = req.files.uploadingVideo.name.split(' ').join('_');
     var fileNameWirhoutExt = fileName.split('.')[0];
@@ -26,19 +25,19 @@ exports.uploadVideo = function(req, res) {
     var target_path = './public/videos/' + fileNameWirhoutExt + '.mp4';
 
     //THIS SOULD BE ADAPTED USING PROMISES
-    ffmpegVideoSD = childProcess.exec(
+    ffmpeg = childProcess.exec(
         'ffmpeg -i ' + tmp_path + ' -s 480x360 -b 500k -vcodec libx264 -y ' + target_path, 
         function (error, stdout, stderr) {
            if (error) {
              console.log(error.stack);
-             console.log('Error code: '+error.code);
-             console.log('Signal received: '+error.signal);
+             console.log('Error code: ' + error.code);
+             console.log('Signal received: ' + error.signal);
             }
-         console.log('Child Process STDOUT: '+stdout);
-         console.log('Child Process STDERR: '+stderr);
+         console.log('Child Process STDOUT: ' + stdout);
+         console.log('Child Process STDERR: ' + stderr);
      });
 
-    ffmpegVideoSD.on('exit', function (code) {
+    ffmpeg.on('exit', function (code) {
        console.log('Child process exited with exit code '+ code);
        fs.unlinkSync(tmp_path);
         res.contentType('json');
@@ -56,11 +55,11 @@ function createThumbnails (origin, size, filename, res, thumbName, videoName) {
         function (error, stdout, stderr) {
            if (error) {
              console.log(error.stack);
-             console.log('Error code: '+error.code);
-             console.log('Signal received: '+error.signal);
+             console.log('Error code: ' + error.code);
+             console.log('Signal received: ' + error.signal);
             }
-         console.log('Child Process STDOUT: '+stdout);
-         console.log('Child Process STDERR: '+stderr);
+         console.log('Child Process STDOUT: ' + stdout);
+         console.log('Child Process STDERR: ' + stderr);
      });
 
     ffmpeg.on('exit', function (code) {
