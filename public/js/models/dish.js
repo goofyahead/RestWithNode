@@ -44,8 +44,12 @@ define(['backbone','eventDispatcher','models/modelErrorHandler'], function(Backb
 	   		eventDispatcher.trigger('app:dishDestroyed');
    		},
 
-   		updateVideo: function ( mVideo, mThumbnail ){
+   		updateVideo: function ( mVideo ){
    			this.set({video: mVideo});
+   			this.save();
+   		},
+
+   		updateThumbnail: function ( mThumbnail ) {
    			this.set({picture: mThumbnail});
    			this.save();
    		},
