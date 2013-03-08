@@ -43,7 +43,7 @@ exports.uploadVideo = function(req, res) {
         res.contentType('json');
         var thumbnailFile = 'thumbnail' + fileNameWirhoutExt;
         createThumbnails(target_path, '640x480', __dirname + 
-            '/../public/images/thumbnail' + fileNameWirhoutExt, res, thumbnailFile, fileName);
+            '/../public/images/thumbnail' + fileNameWirhoutExt, res, thumbnailFile, fileNameWirhoutExt + '.mp4');
     });
 }
 
