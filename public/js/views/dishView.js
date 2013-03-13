@@ -1,9 +1,10 @@
 // View definition importing its html for rendering
 
 define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap','models/categories',
-	'models/menus','models/tags','models/ingredients','models/dishes','views/modal_relations','views/modalPictureSelect'],
+	'models/menus','models/tags','models/ingredients','models/dishes','views/modal_relations','views/modalPictureSelect',
+	'views/ModalView'],
 	function(Backbone, $, dish, ModalView, bootstrap, Categories,
-	 Menus, Tags, Ingredients, Dishes, ModalRelations, ModalPicture) {
+	 Menus, Tags, Ingredients, Dishes, ModalRelations, ModalPicture, BootstapModal) {
 	var DishView = Backbone.View.extend({
 		template: _.template(dish),
 
@@ -73,13 +74,13 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 		    	$('.progress').addClass('hide');
 				var responseUpload = JSON.parse(evt.target.response);
 				console.log(responseUpload);
+
 				var modalPicture = new ModalPicture({
 					pictures: responseUpload,
 					model: thisView.model
 				});
-				modalPicture.render();
-				$('#modalplacer').html(modalPicture.el);
-				$('#myModal').modal();
+				var modal = new BootstapModal({ content: modalPicture, allowCancel: false, title: 'Select a picture' }).open();
+				modalPicture.sender(modal);
 				thisView.model.updateVideo(responseUpload.name);
 			}
 		},

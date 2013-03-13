@@ -1,13 +1,18 @@
-define(['backbone', 'text!templates/picture_modal.html'], function(Backbone, template){
-	var ModalView = Backbone.View.extend({
+define(['backbone', 'text!templates/picture_modal.html', 'views/Backbone.ModalDialog'], function(Backbone, template, ModalView){
+	var pictureModal = ModalView.extend({
 
 		template: _.template(template),
+
+		pictures: {},
+
+		sender: {},
 
 		tagName: 'div',
 		id: 'modal',
 
 		initialize: function(){
-			//reset arrays
+			console.log('initializing with ' + this.options.pictures);
+			this.pictures = this.options.pictures;
 		},
 
 		events: {
@@ -15,7 +20,7 @@ define(['backbone', 'text!templates/picture_modal.html'], function(Backbone, tem
 		},
 
 		select_picture: function(ev) {
-			$('#myModal').modal('hide');
+			this.sender.close();
 			var selectedPicture = ev.currentTarget.alt;
 			this.options.model.updateThumbnail(selectedPicture);
 			$.post("/api/clear-files", {'fileName' : selectedPicture },
@@ -25,14 +30,20 @@ define(['backbone', 'text!templates/picture_modal.html'], function(Backbone, tem
 		},
 
 		render: function(){
-			console.log(this.options.having);
+			console.log('rendering picture selector');
+			console.log(this.options.pictures);
 			var compiledTemplate = this.template({
 				pictures: this.options.pictures
 			});
 			this.$el.html(compiledTemplate);
 			return this;
+		},
+
+		sender: function(sender) {
+			this.sender = sender;
 		}
+		
 	});
 
-	return ModalView;
+	return pictureModal;
 })
