@@ -51,6 +51,7 @@ define(['backbone','jquery','text!templates/dish.html','views/modal','bootstrap'
 	        var thisView = this;
 	        var fd = new FormData();
 		    fd.append('uploadingVideo', this.videoFile);
+		    fd.append('filename', this.model.get("name"));
 		    var xhr = new XMLHttpRequest();
 		    xhr.addEventListener('load', uploadComplete, false);
 		    xhr.addEventListener('progress', uploadProgress, false);

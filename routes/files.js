@@ -18,11 +18,18 @@ exports.uploadPhoto = function(req, res) {
 exports.uploadVideo = function(req, res) {
     var childProcess = require('child_process'),ffmpeg;
     console.log('uploading video0');
-    var fileName = req.files.uploadingVideo.name.split(' ').join('_');
+    console.log(req.param('filename'));
+    var fileName = req.param('filename').split(' ').join('_');
     var fileNameWirhoutExt = fileName.split('.')[0];
     console.log(fileNameWirhoutExt);
     var tmp_path = './' + req.files.uploadingVideo.path;
-    var target_path = './public/videos/' + fileNameWirhoutExt + '.mp4';
+
+    var target_path = '';
+    if (fileName.indexOf('auto_') == -1) {
+        target_path = './public/videos/' + fileNameWirhoutExt + '.mp4';
+    } else {
+        target_path = './public/unasignedVideos/' + fileNameWirhoutExt + '.mp4';
+    }
 
     //THIS SOULD BE ADAPTED USING PROMISES
     ffmpeg = childProcess.exec(
@@ -42,8 +49,16 @@ exports.uploadVideo = function(req, res) {
        fs.unlinkSync(tmp_path);
         res.contentType('json');
         var thumbnailFile = 'thumbnail' + fileNameWirhoutExt;
-        createThumbnails(target_path, '640x480', __dirname + 
+
+        if (fileName.indexOf('auto_') == -1) {
+            createThumbnails(target_path, '640x480', __dirname + 
             '/../public/images/thumbnail' + fileNameWirhoutExt, res, thumbnailFile, fileNameWirhoutExt + '.mp4');
+        } else {
+            createThumbnails(target_path, '640x480', __dirname + 
+            '/../public/unasignedImages/thumbnail' + fileNameWirhoutExt, res, thumbnailFile, fileNameWirhoutExt + '.mp4');
+        }
+
+        
     });
 }
 
