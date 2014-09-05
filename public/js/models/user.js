@@ -1,5 +1,6 @@
 
-define(['backbone','models/modelErrorHandler'], function (Backbone, ModelErrorHandler) {
+define(['backbone','models/modelErrorHandler'], 
+	function (Backbone, ModelErrorHandler) {
 	var User = Backbone.Model.extend({
 
 		defaults: {
@@ -19,6 +20,7 @@ define(['backbone','models/modelErrorHandler'], function (Backbone, ModelErrorHa
 				success: function() {
 					console.log(that.toJSON());
 					sessionStorage.setItem('token',that.get('token'));
+					Backbone.history.navigate('/#dishes', true);
 				},
 				error: function() {
 					sessionStorage.setItem('token','none');

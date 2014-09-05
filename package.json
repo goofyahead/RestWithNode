@@ -4,15 +4,20 @@
 	"version": "0.0.1-2",
 	"private": "true",
 	"dependencies": {
-		"express": "3.X",
-		"mongodb": "1.X"
-	},
+		"express": "*",
+		"mongodb": "*",
+		"cookie-parser": "~1.0.1",
+		"static-favicon": "~1.0.0",
+		"cookie-parser": "~1.0.1",
+		"body-parser": "~1.0.0",
+		"connect-multiparty": "*"
+		},
 	"engines": {
 		"node": "0.8.x",
 		"npm": "1.1.x"
-	},
-	"subdomain": "goofyahead.manageat",
-	"scripts": {
-		"start": "server.js"
-	}
+		},
+		"subdomain": "goofyahead.manageat",
+		"scripts": {
+			"start": "node server.js"
+		}
 }

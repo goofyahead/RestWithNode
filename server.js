@@ -16,28 +16,37 @@ var fs = require('fs');
 var HTTP_PORT= 80;
 var HTTPS_PORT = 4433;
 var HTTP_PORT_2 = 8081;
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var favicon = require('static-favicon');
 
 var options = {
   key: fs.readFileSync('./manageat-key.pem'),
   cert: fs.readFileSync('./manageat-cert.pem')
 };
 
-app.configure(function(){
-	app.use(express.bodyParser());
-	app.use('/images', express.static(__dirname + '/public/images'));
-	app.use('/videos', express.static(__dirname + '/public/videos'));
-});
+
+app.use('/images', express.static(__dirname + '/public/images'));
+app.use('/videos', express.static(__dirname + '/public/videos'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
+
 
 //API to get the current menu
 // app.get('/api/currentmenu', dishes.getCurrentMenu);
 
-secureApp.configure(function(){
-	secureApp.use(express.static(__dirname + '/public'));
-	secureApp.use('/images', express.static(__dirname + '/public/images'));
-	secureApp.use('/videos', express.static(__dirname + '/public/videos'));
-	secureApp.use(express.bodyParser({
-		uploadDir: './myTemp'
-	}));
+secureApp.use(express.static(__dirname + '/public'));
+secureApp.use('/images', express.static(__dirname + '/public/images'));
+secureApp.use('/videos', express.static(__dirname + '/public/videos'));
+secureApp.use(bodyParser.json());
+secureApp.use(bodyParser.urlencoded());
+secureApp.use(cookieParser());
+
+
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart({
+	uploadDir: './myTemp' 
 });
 
 //WHILE NOT SSL CERT DEPLOYED
@@ -72,9 +81,9 @@ secureApp.post('/api/categories', validation.validate, categories.addCategory);
 secureApp.post('/api/menus', validation.validate, menus.addMenu);
 secureApp.post('/api/tags', validation.validate, tags.addTag);
 secureApp.post('/api/ingredients', validation.validate, ingredients.addIngredient);
-secureApp.post('/api/file-upload', files.uploadPhoto);
-secureApp.post('/api/video-upload', validation.validate, files.uploadVideo);
-secureApp.post('/api/clear-files', files.clearImagelist); //SECUROTY HOLE!! ADD CREDENTIALS TO THIS REQ
+secureApp.post('/api/file-upload', multipartMiddleware, files.uploadPhoto);
+secureApp.post('/api/video-upload', validation.validate, multipartMiddleware,files.uploadVideo);
+secureApp.post('/api/clear-files', files.clearImagelist); //SECURITY HOLE!! ADD CREDENTIALS TO THIS REQ
 
 //DELETE REQUEST
 secureApp.delete('/api/dishes/:id', validation.validate, dishes.deleteDish);

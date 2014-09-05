@@ -18,6 +18,8 @@ exports.validate = function(req, res, next) {
 
 	var auth = req.headers.authorization;
 
+	// console.log(auth);
+	
 	db.collection('users', function(err, collection) {
 		if (err){
 			console.log('not found');
