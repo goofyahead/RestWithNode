@@ -3,13 +3,14 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
   'models/dishes', 'models/categories','views/categoriesListView', 'models/category', 'views/categoryView',
   'models/menus', 'views/menuListView', 'views/menuView', 'models/menu','models/ingredient','models/tag',
   'models/ingredients', 'models/tags','views/tagView', 'views/ingredientView', 'views/tagListView',
-  'views/ingredientsListView', 'models/user','views/userView'],
+  'views/ingredientsListView', 'models/user','views/userView', 'models/unasigned', 'views/unasignedView'],
   function($, _, Backbone, DishView, Dish, DishListView, Dishes,
     Categories, CategoriesListView, Category, CategoryView, Menus,
     MenusListView, MenuView, Menu, Ingredient, Tag, Ingredients, Tags,
-    TagView, IngredientView, TagsListView, IngredientsListView, User, UserView) {
+    TagView, IngredientView, TagsListView, IngredientsListView, User, 
+    UserView, Unasigned, UnasignedView) {
 
-    
+
 
     var AppRouter = Backbone.Router.extend({
 
@@ -32,6 +33,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
       "ingredients" : "showIngredients",
       "ingredients/newIngredient" : "showNewIngredient",
       "ingredients/:id" : "showIngredientById",
+      "unasigned" : "unasigned",
       "*error" : "fourOfour"
     },
 
@@ -45,7 +47,20 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
       $('#home-link').addClass('active');
     },
 
+    unasigned : function() {
+      $('.nav li').removeClass('active');
+      $('#unasigned').addClass('active');
+      var unasigned = new Unasigned();
+      unasigned.fetch();
+
+      var unasignedView = new UnasignedView ({model : unasigned});
+      unasignedView.render();
+      $('#menu_holder').hide();
+      $('#content').html(unasignedView.el);
+    },
+
     logIn: function() {
+      $('#menu_holder').hide();
       $('#left_menu').empty();
       var user = new User();
       var userView = new UserView({model: user});
@@ -54,6 +69,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
     },
 
     showTags: function() {
+      $('#menu_holder').show();
       $('#content').empty();
       $('.nav li').removeClass('active');
       $('#tags-link').addClass('active');
@@ -63,6 +79,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
     },
 
     showNewTag: function() {
+     $('#menu_holder').show();
      $('.nav li').removeClass('active');
      $('#tags-link').addClass('active');
      var tag = new Tag();
@@ -72,6 +89,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
    },
 
    showTagById: function(id) {
+    $('#menu_holder').show();
     $('.nav li').removeClass('active');
     $('#tags-link').addClass('active');
     var tag = new Tag({_id : id});
@@ -85,6 +103,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
   },
 
   showIngredients: function() {
+    $('#menu_holder').show();
     $('#content').empty();
     $('.nav li').removeClass('active');
     $('#ingredients-link').addClass('active');
@@ -94,6 +113,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
   },
 
   showNewIngredient: function() {
+    $('#menu_holder').show();
    $('.nav li').removeClass('active');
    $('#ingredients-link').addClass('active');
    var ingredient = new Ingredient();
@@ -103,6 +123,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
  },
 
  showIngredientById: function(id) {
+  $('#menu_holder').show();
   $('.nav li').removeClass('active');
   $('#ingredient-link').addClass('active');
   var ingredient = new Ingredient({_id : id});
@@ -116,6 +137,7 @@ define(['jquery','underscore','backbone','views/dishView','models/dish','views/d
 },
 
 showMenus: function() {
+  $('#menu_holder').show();
   $('#content').empty();
   $('.nav li').removeClass('active');
   $('#menu-link').addClass('active');
@@ -125,6 +147,7 @@ showMenus: function() {
 },
 
 showNewMenu: function() {
+  $('#menu_holder').show();
  $('.nav li').removeClass('active');
  $('#menu-link').addClass('active');
  var menu = new Menu();
@@ -134,6 +157,7 @@ showNewMenu: function() {
 },
 
 showMenuById: function(id) {
+  $('#menu_holder').show();
   $('.nav li').removeClass('active');
   $('#menu-link').addClass('active');
   var menu = new Menu({_id : id});
@@ -147,6 +171,7 @@ showMenuById: function(id) {
 },
 
 showNewCategory: function() {
+  $('#menu_holder').show();
   $('.nav li').removeClass('active');
   $('#categories-link').addClass('active');
   var category = new Category();
@@ -156,6 +181,7 @@ showNewCategory: function() {
 },
 
 showCategories: function () {
+  $('#menu_holder').show();
   $('#content').empty();
   $('.nav li').removeClass('active');
   $('#categories-link').addClass('active');
@@ -165,6 +191,7 @@ showCategories: function () {
 },
 
 showCategoryById: function(id) {
+  $('#menu_holder').show();
  $('.nav li').removeClass('active');
  $('#categories-link').addClass('active');
  var category = new Category({_id : id});
@@ -178,6 +205,7 @@ showCategoryById: function(id) {
 },
 
 showNewDish: function () {
+  $('#menu_holder').show();
   $('.nav li').removeClass('active');
   $('#dishes-link').addClass('active');
   var dishModel = new Dish();
@@ -187,6 +215,7 @@ showNewDish: function () {
 },
 
 showDishById: function(id){
+  $('#menu_holder').show();
   $('.nav li').removeClass('active');
   $('#dishes-link').addClass('active');
   console.log('requesting product' + id);
@@ -203,6 +232,7 @@ showDishById: function(id){
 },
 
 showDishes: function(){
+  $('#menu_holder').show();
   $('#content').empty();
   $('.nav li').removeClass('active');
   $('#dishes-link').addClass('active');

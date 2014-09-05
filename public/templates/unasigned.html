@@ -1,0 +1,22 @@
+<div class="row">
+	<% _.each(elements, function(element, index, list){ console.log(element); %>
+	
+	<% if (index % 3 == 0) { %>
+		</div><div class="row spacer">
+	<% } %>
+
+	<div class="span3">
+		<div class="thumbnail">
+			<!-- <img data-src="holder.js/300x300" alt="..."> -->
+			<video height='210' width='210' src=/unasignedVideos/<%= element %> controls>
+				Your browser does not support the <code>video</code> element.
+			</video>
+			<div class="caption">
+				<h5>Uncategorized video</h5>
+				<p><a class="btn btn-success" role="button" id='edit' data-videoname=<%= element %>>Edit</a> 
+				<a class="btn btn-danger" role="button" id='delete' data-videoname=<%= element %>>Delete</a></p>
+			</div>
+		</div>
+	</div>
+	<% }); %>
+</div>

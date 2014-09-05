@@ -55,6 +55,7 @@ secureApp.get('/api/tags', tags.findAll);
 secureApp.get('/api/menus', menus.findAll);
 secureApp.get('/api/ingredients', ingredients.findAll);
 secureApp.get('/api/categories', categories.findAll);
+secureApp.get('/api/unasignedvideos', files.getUnasignedVideos);
 //A public API can be specified for get categories etc, that will hide the ones
 //not in current selection.
 

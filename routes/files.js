@@ -1,5 +1,6 @@
 var fs = require('fs');
 var util = require('util');
+var _ = require('underscore');
 
 exports.uploadPhoto = function(req, res) {
     console.log('Uploading file');
@@ -14,6 +15,16 @@ exports.uploadPhoto = function(req, res) {
       res.send(JSON.stringify({ name: fileName }));
   });
 };
+
+exports.getUnasignedVideos = function (req, res) {
+    var arrayFiles = fs.readdirSync('./public/unasignedVideos');
+    console.log(arrayFiles);
+    var filtered = _.filter(arrayFiles, function (file) {
+        if (file.indexOf('.mp4') == -1) return false;
+        else return true;
+    });
+    res.send({elements : filtered});
+}
 
 exports.uploadVideo = function(req, res) {
     var childProcess = require('child_process'),ffmpeg;

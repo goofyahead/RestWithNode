@@ -10,7 +10,8 @@
 		"static-favicon": "~1.0.0",
 		"cookie-parser": "~1.0.1",
 		"body-parser": "~1.0.0",
-		"connect-multiparty": "*"
+		"connect-multiparty": "*",
+		"underscore" : "*"
 		},
 	"engines": {
 		"node": "0.8.x",
