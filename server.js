@@ -1,36 +1,47 @@
-var express = require('express');
-var secureApp = express();
-var app = express();
-var securesecureApp = express();
-var dishes = require('./routes/dishes');
-var categories = require('./routes/categories');
-var menus = require('./routes/menus');
-var ingredients = require('./routes/ingredients');
-var validation = require('./routes/validation.js');
-var tags = require('./routes/tags');
-var files = require('./routes/files');
-var logOn = require('./routes/logon');
-var https = require('https');
-var http = require('http');
-var fs = require('fs');
-var HTTP_PORT= 80;
-var HTTPS_PORT = 4433;
-var HTTP_PORT_2 = 8081;
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var favicon = require('static-favicon');
+var MongoClient = require('mongodb').MongoClient
+, assert = require('assert');
+// Connection URL
+var url = 'mongodb://localhost:27017/kaprika';
+// Use connect method to connect to the Serverv
 
-var options = {
-  key: fs.readFileSync('./manageat-key.pem'),
-  cert: fs.readFileSync('./manageat-cert.pem')
-};
+MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    console.log("Connected correctly to server");
+
+    var express = require('express');
+    var secureApp = express();
+    var app = express();
+    var securesecureApp = express();
+    var dishes = require('./routes/dishes')({database : db});
+    var categories = require('./routes/categories')({database : db});
+    var menus = require('./routes/menus')({database : db});
+    var ingredients = require('./routes/ingredients')({database : db});
+    var validation = require('./routes/validation.js')({database : db});
+    var tags = require('./routes/tags')({database : db});
+
+    var files = require('./routes/files');
+    var logOn = require('./routes/logon');
+    var https = require('https');
+    var http = require('http');
+    var fs = require('fs');
+    var HTTP_PORT= 80;
+    var HTTPS_PORT = 4433;
+    var HTTP_PORT_2 = 8081;
+    var cookieParser = require('cookie-parser');
+    var bodyParser = require('body-parser');
+    var favicon = require('static-favicon');
+
+    var options = {
+      key: fs.readFileSync('./manageat-key.pem'),
+      cert: fs.readFileSync('./manageat-cert.pem')
+    };
 
 
-app.use('/images', express.static(__dirname + '/public/images'));
-app.use('/videos', express.static(__dirname + '/public/videos'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+  app.use('/images', express.static(__dirname + '/public/images'));
+  app.use('/videos', express.static(__dirname + '/public/videos'));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded());
+  app.use(cookieParser());
 
 
 //API to get the current menu
@@ -46,7 +57,7 @@ secureApp.use(cookieParser());
 
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart({
-	uploadDir: './myTemp' 
+    uploadDir: './myTemp' 
 });
 
 //WHILE NOT SSL CERT DEPLOYED
@@ -97,3 +108,5 @@ secureApp.delete('/api/tags/:id', validation.validate, tags.deleteTag);
 // app.listen(HTTP_PORT);
 secureApp.listen(HTTP_PORT);
 console.log('Listening http on port ' + HTTP_PORT +' and htpps on ' + HTTPS_PORT);
+});
+
